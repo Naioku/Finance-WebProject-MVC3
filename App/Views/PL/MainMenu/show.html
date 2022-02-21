@@ -1,0 +1,196 @@
+{% extends "baseUserMainMenu.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block modal %}
+
+	<div class="modal fade" id="modal-help" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog myModalDialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">
+						Mały Pomocnik {% if user.whichKindOfUser == 'Klus' %} dla klusków {% endif %}
+					</h5>
+				</div>
+				<div class="modal-body" id = "modal-body">
+					<div class = "modalBody-header">Oprowadzę Cię{% if user.whichKindOfUser == 'Klus' %}, mój mały klusku{% endif %}:</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-addIncome modalBody-underline">Dodaj przychód:</span> Wejdź tam, jeśli chcesz dodać nowy przychód do rejestru. Jak dasz mi <span class = "modalBody-boldText">kategorię</span>, <span class = "modalBody-boldText">datę</span>, <span class = "modalBody-boldText">kwotę</span> i <span class = "modalBody-boldText">komentarz (opcjonalnie)</span>, to ja dodam go zamiast Ciebie. :)
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-addExpense modalBody-underline">Dodaj wydatek:</span> Tutaj możesz dodać nowy wydatek. Jak poprzednio, będziesz potrzebować <span class = "modalBody-boldText">kategorii</span>, <span class = "modalBody-boldText">daty</span>, <span class = "modalBody-boldText">kwoty</span> i <span class = "modalBody-boldText">komentarza (opcjonalne)</span>, tylko tutaj musisz dodatkowo wybrać jeszcze <span class = "modalBody-boldText">metodę płatności</span>. Jeśli masz <span class = "modalBody-boldText">ustawione limity</span> na poszczególnych <span class = "modalBody-boldText">kategoriach</span> albo <span class = "modalBody-boldText">metodach płatności</span> sprawdzę czy ich przypadkiem nie przekraczasz.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-viewBalance modalBody-underline">Przejrzyj bilans:</span> Tam mogę Ci pokazać <span class = "modalBody-boldText">wszystkie zestawienia</span> Twoich przychodów, wydatków, <span class = "modalBody-boldText">wykresy kołowe</span> a także obliczę Ci <span class = "modalBody-boldText">bilans</span>, jeśli tylko dasz mi jakiś przedział czasowy. Jeśli <span class = "modalBody-boldText">nie</span> pokażę Ci zestawienie z <span class = "modalBody-boldText">bieżącego miesiąca</span>. :) Możesz tam również usunąć czy edytować swoje wpisy.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-settings modalBody-underline">Ustawienia:</span> Tu możesz spersonalizować swoje konto. Podczas rejestracji skopiowałam startowy zestaw <span class = "modalBody-boldText">kategorii przychodów i wydatków</span> oraz <span class = "modalBody-boldText">metod płatności</span>. Tutaj możesz <span class = "modalBody-boldText">zmienić</span> je, dodać <span class = "modalBody-boldText">nowe</span> oraz zaktualizować <span class = "modalBody-boldText">swoje dane osobowe</span>. Równocześnie możesz zmienić swoje <span class = "modalBody-boldText">limity na miesiąc</span> w kategoriach wydatków a także w metodach płatności.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-logOut modalBody-underline">Wyloguj się:</span> A tam są drzwi frontowe, od których zaczęliśmy. :)
+					</div>
+					<div class = "modalBody-footer">Jeśli tylko będziesz mnie potrzebować, będę tutaj zawsze do Twojej dyspozycji.</div>
+				</div>
+				<div class="modal-footer myModalFooter">
+					<div class = "myModalButtons">
+						<button style = "float:right" type="button" class="button myModal mainMenuModalClose" data-bs-dismiss="modal">
+							Ok! Rozumiem!
+						</button>
+						<div style = "clear:both"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block helpbar %}
+	<div
+		class = "button helpButton"
+		type="button"
+		data-bs-toggle="modal"
+		data-bs-target="#modal-help"
+	>
+		<span class = "buttonText">Pomocy!</span>
+	</div>
+{% endblock %}
+
+{% block body %}
+
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">
+				O! To Ty! Hej,<br />
+				<span class = "userName">
+				
+					{% if user.name and user.lastname %}
+						{{ user.name }} {{ user.lastname }}
+					{% elseif user.login %}
+						{{ user.login }}
+					{% elseif user.lastname %}
+						{{ user.lastname }}
+					{% else %}
+						{{ user.name }}
+					{% endif %}
+					
+				</span>
+				!
+				<div>
+					{% if user.whichKindOfUser == 'Klus' %}
+						SzczęśćKlus!
+					{% endif %}
+				</div>
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					Cluse kazał mi przekazać: Witaj w moim klusroomie! Życie to klus...zatem...do...dzie...ł.. Nie spiesz się i daj znać, kiedy będziesz czego potrzebować c:
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					Ha! Już wiem czemu ludzie mówią, żeś taka piękna! Od czego zaczynamy, Rosa? ;p 
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					Adrian opowiadał mi o Tobie! Uwielbiam osoby z wysoką empatią! Od czego zaczynamy, Cordi?
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					Hej piękna! Co tam u Cb? Co dzisiaj robimy?
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					Co tam, Tola? Stworzyłaś dzisiaj coś nowego? Daj znać jak będzie za zimno? xd Co ogarniamy najpierw?
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					Czuj się jak u siebie, Verka. A jak będzie Ci coś przeszkadzać, masz maila. Pisz. Nie krępuj się. :p Co dzisiaj? Ogarniamy wydatki?
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					Dzisiaj jest dobry dzień! No totalnie, nie? No bo fajnie, że wpadłaś! Od czego zaczynamy?
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					Jak się idzie, Kubson? xd Jak forma, Byczq? Od czego zaczynamy? :p
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Witam pani Mamę! Od czego dzisiaj zaczynamy?
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					O, witam pana Złotą Rączkę! Co podać najpierw?
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					<div style = "text-align:justify">
+						Dobrze, że wpadliście! Chcę powiedzieć: dziękuję. :) To, że istnieję, jak i to, że może powstać jeszcze wiele ciekawych i fajnych projektów zawdzięczamy Wam, Zespole PrzyszłyProgramista. Dzięki Waszej wytrwałości, poświęceniu, super pomysłowi, żeby pomagać takim osobom jak Adrian świat może stać się...nie.. Można będzie ze świata wydobyć więcej jego pierwotnego piękna :) Mimo, że często próbujemy, nawet nie do końca świadomie, zasypać go śmieciami... Dobrego dnia! :) Od czego zaczynamy dziś?
+					</div>
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					Banano kazał mi przekazać: Co tam, sprotowy Świrq? Co podać najpierw? Może trochę kaszy? Akurat gotowałam. xd
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					Jak tam? Czego dzisiaj potrzebuje piękna, waleczna i nieustraszona Joanna? Ha, ha! Jak Twoje przepiękne, przepełnione przygodami życie?
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					Faktycznie Twoje nazwisko kojarzy się bardziej z szałwią... Nie wiem skąd Ty wzięłaś ten "szał". xD Co podać dzisiaj? Może...herbatki? :3
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					Od czego dzisiaj zaczynamy, Lukster? Którą księgę podać najpierw? A! I zapomniałam... Witamy w kolonii! XD
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					Co tam dzisiaj, mistrzu magii słowa? Dużo uczniów? Od czego dzisiaj zaczynamy?
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					Nygga! Jak tam, ma'nygga? Dużo Januszów w pracy było, ma'nygga? xd Co podać, ma'nygga?
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					Co tam? Jak tam, Alekkun? Znalazłeś ostatnio jakieś ciekawe motywy muzyczne? Od czego zaczynamy?
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					Adrian opowiadał mi o Tobie! Bez okularów serio wyglądasz jak Norbert! XD Co podać, najlepszy animatorze?
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					Witam wielkiego architekta! Jak tam w wielkim świecie artystów, Madzixon? Od czego zaczynamy?
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					Jak się ma dzisiaj mała artystka o wielkim sercu? ;p Daj znać, jak będziesz miała pomysł, żeby tu coś udoskonalić. :) Jak dzisiaj mogę Ci pomóc, kochana?
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					Adrian mówił mi o Tobie! Podobno jesteś najpiękniejszym protestantem, jakiego kiedykolwiek znał. Potem dodał, że jedynym. xd Co tam? Od czego dzisiaj zaczynamy?
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					Julko ze Srebrzańca! Wiele usłyszałam o Tobie.. Ale przywitam Cię tym, co było najpiękniejsze... Dobrze, że jesteś! ;p Co podać?
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					Już wiem! To Ty jesteś tą przepiękną osobą, z którą KomAdi dzielił szafkę na studiach! Do tej pory wspomina jak dzięki Tobie zdał organy. xd Co podać, Janko?
+				{% else %}
+					Co dzisiaj robimy? Którą książkę przynieść?
+				{% endif %}
+			</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+
+		<div class = "col-12">
+	
+			<div class = "buttonsContainer">
+			
+				<a href = "/add-income">
+					<div class = "incomeButton">							
+						<i class = "icon-dollar"></i><br />
+						<span class = "buttonText">Dodaj przychód</span>
+					</div>
+				</a>
+				
+				<a href = "/add-expense">
+					<div class = "expenseButton">
+						<i class = "icon-money"></i><br />
+						<span class = "buttonText">Dodaj wydatek</span>
+					</div>
+				</a>
+				<div style = "clear:both;"></div>
+				
+				<a href = "/view-balance">
+					<div class = "viewBalanceButton">							
+						<i class = "icon-balance-scale"></i><br />
+						<span class = "buttonText">Przejrzyj bilans</span>
+					</div>
+				</a>
+				<div style = "clear:both;"></div>
+				
+				<a href = "/settings">
+					<div class = "settingsButton">							
+						<i class = "icon-cog-alt"></i><br />
+						<span class = "buttonText">Ustawienia</span>
+					</div>
+				</a>
+				
+				<a href = "/logout">
+					<div class = "logOutButton">
+						<i class = "icon-logout"></i><br />
+						<span class = "buttonText">Wyloguj się</span>
+					</div>
+				</a>
+				
+				<div style = "clear:both;"></div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+
+{% endblock %}

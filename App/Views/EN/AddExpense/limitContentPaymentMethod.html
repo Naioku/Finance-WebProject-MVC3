@@ -1,0 +1,42 @@
+<div class = "limitAlert limitAlert-header">Payment method</div>
+
+<div class = "limitAlert 
+	{% if user.isPaymentMethodLimitSet == false %}
+		limitAlert-limitNotSet
+	{% elseif user.howMuchYouExceededPaymentMethod > 0 %}
+		limitAlert-exceeded
+	{% elseif user.howMuchYouNeedToExceedPaymentMethod > 0 %}
+		limitAlert-notExceeded
+	{% elseif user.howMuchYouNeedToExceedPaymentMethod == 0 and user.howMuchYouExceededPaymentMethod == 0 %}
+		limitAlert-reached
+	{% endif %}"
+>
+	
+	{% if user.isPaymentMethodLimitSet == false %}
+		<div>
+			Limit for this payment method is not set yet.
+		</div>
+	{% elseif user.howMuchYouExceededPaymentMethod > 0 %}
+		<div>
+			Watch out! You're exceeding Your limit this month with {{ user.howMuchYouExceededPaymentMethod }} zł.
+		</div>
+	{% elseif user.howMuchYouNeedToExceedPaymentMethod > 0 %}
+		<div>
+			Ok. It remains {{ user.howMuchYouNeedToExceedPaymentMethod }} zł to reach Your limit this month.
+		</div>
+	{% elseif user.howMuchYouNeedToExceedPaymentMethod == 0 and user.howMuchYouExceededPaymentMethod == 0 %}
+		<div>
+			Watch out! You've reached Your limit this month!
+		</div>
+	{% endif %}
+	
+	{% if user.isPaymentMethodLimitSet != false %}
+		<div>
+			You've spent: {{ user.paymentMethodAmountSum }} zł.
+		</div>
+		<div>
+			Your limit: {{ user.currentPaymentMethodLimit }} zł.
+		</div>
+	{% endif %}
+
+</div>

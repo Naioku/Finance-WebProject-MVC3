@@ -1,0 +1,53 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+	
+	<header>
+	
+		<div class = "textContainer">
+			<div class = "narrator"> You're getting to a small wooden house and look on the notice board...</div>
+			<h1 class = "articleHeaders">Welcome!</h1>
+			You propably are wondering, who am I. But more important question is: "Who I could become?". I could be the part of Your memory. I could help You catch all YOUR coins, which from you're running out very quickly. 1 minute of plan equals 10 minutes of act, so if I take listing all Your incomes and expenses upon myself, You could spent more time on plannig and that means more time saved ^^. But at first we should get acquainted. So if You don't know who am I, enter the left door. Otherwise knock on the right door.<br />
+			<div class = "oneLineCenterText">So...?</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+	
+		<div class = "col-12">
+	
+			<div class = "buttonsContainer">
+				<a href = "/signup">
+					<div class = "registerButton">
+						<div class = "icons">
+							<i class = "icon-handshake-o"></i><br />
+						</div>
+						<div class = "iconText">
+							Left
+						</div>
+					</div>
+				</a>
+				
+				<a href = "/login">
+					<div class = "logInButton">
+						<div class = "icons">
+							<i class = "icon-login"></i>
+						</div>
+						<div class = "iconText">
+							Right
+						</div>
+					</div>
+				</a>
+				
+				<div style = "clear:both;"></div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+				
+{% endblock %}

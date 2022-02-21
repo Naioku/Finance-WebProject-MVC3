@@ -1,0 +1,201 @@
+{% extends "baseUserMainMenu.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block modal %}
+
+	<div class="modal fade" id="modal-help" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog myModalDialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">
+						Little Helper {% if user.whichKindOfUser == 'Klus' %} for dumplings {% endif %}
+					</h5>
+				</div>
+				<div class="modal-body" id = "modal-body">
+					<div class = "modalBody-header">Let me show You my rooms{% if user.whichKindOfUser == 'Klus' %}, my little dumpling{% endif %}:</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-addIncome modalBody-underline">Add Income:</span> Get in if You want to add new income. If You give me <span class = "modalBody-boldText">category</span>, <span class = "modalBody-boldText">date</span>, <span class = "modalBody-boldText">amount</span> and <span class = "modalBody-boldText">comment (optional)</span> I'll add it instead of You. :)
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-addExpense modalBody-underline">Add Expense:</span> Here You can add new expense. Like previously You will need <span class = "modalBody-boldText">category</span>, <span class = "modalBody-boldText">date</span>, <span class = "modalBody-boldText">amount</span> and <span class = "modalBody-boldText">comment (optional)</span>, but here You must choose additionally <span class = "modalBody-boldText">payment method</span>. If You have <span class = "modalBody-boldText">set limits</span> on particular <span class = "modalBody-boldText">category</span> or <span class = "modalBody-boldText">payment method</span> I'll check whether or not You are exeeding them.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-viewBalance modalBody-underline">View balance:</span> There I can show You <span class = "modalBody-boldText">all statements</span> of Your incomes, expenses, <span class = "modalBody-boldText">pie charts</span> and I will calculate the <span class = "modalBody-boldText">balance</span> if You give me a time interval. If You <span class = "modalBody-boldText">won't</span> do that I will show You the statement of <span class = "modalBody-boldText">present month</span>. :) There You can also delete or change Your records.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-settings modalBody-underline">Settings:</span> Here You can personalize Your account. During registration I copied the starting set of <span class = "modalBody-boldText">income's, expense's categories</span> and <span class = "modalBody-boldText">payment methods</span>. Here You can <span class = "modalBody-boldText">change</span> them, add <span class = "modalBody-boldText">new</span> ones or update Your <span class = "modalBody-boldText">personal data</span>. Also You can set or change Your <span class = "modalBody-boldText">limits per month</span> of expense in categories or payment methods.
+					</div>
+					<div class = "modalBody-paragraf">
+						<span class = "modalBody-logOut modalBody-underline">Log out:</span> And there are front doors, from which we started. :)
+					</div>
+					<div class = "modalBody-footer">If You'll need me I always be here to Your disposition.</div>
+				</div>
+				<div class="modal-footer myModalFooter">
+					<div class = "myModalButtons">
+						<button style = "float:right" type="button" class="button myModal mainMenuModalClose" data-bs-dismiss="modal">
+							Ok! I've got it!
+						</button>
+						<div style = "clear:both"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block helpbar %}
+	<div
+		class = "button helpButton"
+		type="button"
+		data-bs-toggle="modal"
+		data-bs-target="#modal-help"
+	>
+		<span class = "buttonText">Help!</span>
+	</div>
+{% endblock %}
+
+{% block body %}
+
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">
+				Oh! It's You! Hi,<br />
+				<span class = "userName">
+				
+					{% if user.name and user.lastname %}
+						{{ user.name }} {{ user.lastname }}
+					{% elseif user.login %}
+						{{ user.login }}
+					{% elseif user.lastname %}
+						{{ user.lastname }}
+					{% else %}
+						{{ user.name }}
+					{% endif %}
+					
+				</span>
+				!
+				<div>
+					{% if user.whichKindOfUser == 'Klus' %}
+						Dumplings!
+					{% endif %}
+				</div>
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					(Greetings + Klus => Dumplings xD)
+				{% endif %}
+			</div>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					Cluse wanted to hand on: Welcome to my klusroom! Life is klus...so...let's...st... do... noth... Take Your time and tell me if You'll need something c:
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					Ha! I know why the people say You are pretty that much! What are we starting from, Rosa? ;p
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					Adrian told me about You! I love people with high empathy! What are we starting from, Cordi?
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					Hi pretty! What's going on? What are we going to do today?
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					What's up, Tola? Have You created somethin new? Let me know if it's cold, ok? xd What will do first?
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					Make yourself at home, Verka. And if something will trouble You, make a complaint to the creator, feel free to do it. :p What today? Expenses?
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					Today is a good day, don't You think Nadzieja! Totally! It's because You came in! What shall we do first?
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					How's going, Kubson? xd How's the form? What shall we start from? :p
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Hello madam Mother! What shall we start from?
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					Oh, Hello sir Handyman! What should I give at first?
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					<div style = "text-align:justify">
+						It's good You are here! I want to say: thankyou. :) This, that I exist and that it can still arise many quaint and cool projects, among others It's all thanks to You, FutureProgrammer Team. Thanks to Your persistence, sacrifice, cool idea to help that kind of people like Adrian, world can become...no.. We will be able to get from the world more original beauty :) Even though we often try, propably unconsciously, to dump ours trash here... Good day to You! :) What we are starting from today?
+					</div>
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					Banano want me to tell You: "What's up, sporty Geeq?" So... What should I give You first? Maybe some groats? Just boiled. xd
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					How's going? What does want today beautiful, brave and fearless Joann? Ha, ha! How's Your beautiful, full of adventures life?
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					Seriously Your last name is associated more with sage... I don't know where You take this "anger" from. xD What should I give You today? Maybe...tea? :3
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					From where are we starting today? Which book should I give You first? Oh! I forgot... Welcome to the colony! XD
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					What's up today, master of word magic? Lots of students? What are we starting today from?
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					Nygga! What's up, ma'nygga? Lots of Janushes in job, ma'nygga? xd What can I get You, ma'nygga?
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					What's up? How are You, Alekkun? Have You found interesting music themes recently? What are we starting from?
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					Adrian told me something about You! Without glasses You really looks like Norbert! XD What can I get You, best animator?
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					Welcome great architect! How's the big world of artists, Madzixon? What are we starting from?
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					How are little artist with great heart? ;p Let me know if You have an idea, how could I make things better here. :) How can I help You today, dear?
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					Adrian told me something about You! Heared that You are the most beautiful protestant he's ever knew. Then he told that only one he has knew. What's up? What are we starting from today?
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					Julko from Srebrzaniec! Heard a lot of about You.. But I will greet You this, that was the most pretty... It's good You are here! ;p What can I get You?
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					I know! You are this pretty person, who KomAdi share cupboard with on studies! To this day he recalls that he passed organic with Your help. xd What can I get You, Janko?
+				{% else %}
+					What are we going to do today? Which book should I bring?
+				{% endif %}
+			</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+
+		<div class = "col-12">
+	
+			<div class = "buttonsContainer">
+			
+				<a href = "/add-income">
+					<div class = "incomeButton">							
+						<i class = "icon-dollar"></i><br />
+						<span class = "buttonText">Add income</span>
+					</div>
+				</a>
+				
+				<a href = "/add-expense">
+					<div class = "expenseButton">
+						<i class = "icon-money"></i><br />
+						<span class = "buttonText">Add expense</span>
+					</div>
+				</a>
+				<div style = "clear:both;"></div>
+				
+				<a href = "/view-balance">
+					<div class = "viewBalanceButton">							
+						<i class = "icon-balance-scale"></i><br />
+						<span class = "buttonText">View balance</span>
+					</div>
+				</a>
+				<div style = "clear:both;"></div>
+				
+				<a href = "/settings">
+					<div class = "settingsButton">							
+						<i class = "icon-cog-alt"></i><br />
+						<span class = "buttonText">Settings</span>
+					</div>
+				</a>
+				
+				<a href = "/logout">
+					<div class = "logOutButton">
+						<i class = "icon-logout"></i><br />
+						<span class = "buttonText">Log out</span>
+					</div>
+				</a>
+				
+				<div style = "clear:both;"></div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+
+{% endblock %}

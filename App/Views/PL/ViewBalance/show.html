@@ -1,0 +1,1520 @@
+{% extends "baseUserViewBalance.html" %}
+
+{% block title %}View Balance{% endblock %}
+
+{% block footer %}
+	
+	<!--Load the AJAX API-->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+		// Load the Visualization API and the corechart package.
+		google.charts.load('current', {'packages':['corechart']});
+
+		// Set a callback to run when the Google Visualization API is loaded.
+		{% if user.groupedIncomesArr is not empty %}
+			google.charts.setOnLoadCallback(drawChartIncome);
+		{% endif %}
+		{% if user.groupedExpensesArr is not empty %}
+			google.charts.setOnLoadCallback(drawChartExpense);
+		{% endif %}
+		{% if user.groupedPaymentMethodsArr is not empty %}
+			google.charts.setOnLoadCallback(drawChartPaymentMethod);
+		{% endif %}
+		
+		if ($(window).width() < 575.98) {
+			myFontSizeTitle = 18;
+			myFontSizeLegend = 10;
+		} else if ($(window).width() < 991.98) {
+			myFontSizeTitle = 25;
+			myFontSizeLegend = 15;
+		} else {
+			myFontSizeTitle = 35;
+			myFontSizeLegend = 25;
+		}
+		
+		
+		var myFontName = 'Caveat';
+		var myTooltipTrigger = 'none';
+		var myBackgroundColor = 'transparent';
+		var myIs3D = true;
+		
+		// Callback that creates and populates a data table,
+		// instantiates the pie chart, passes in the data and
+		// draws it.
+		function drawChartIncome() {
+
+			// Create the data table.
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Categories');
+			data.addColumn('number', 'Amount');
+			//data.addColumn({type: 'string', role: 'style'});
+			
+			{% for row in user.groupedIncomesArr %}
+				data.addRow(['{{ row.category }}', {{ row.amount_sum }}]);
+			{% endfor %}
+			
+				var options = {
+					title: 'Przychody - kategorie',
+					titleTextStyle: {
+						color: '#63D603',
+						fontName: myFontName,
+						fontSize: myFontSizeTitle
+					},
+					legend: {
+						textStyle: {
+							color: '#ffffff',
+							fontName: myFontName,
+							fontSize: myFontSizeLegend
+						}
+					},
+					tooltip: {
+						trigger: myTooltipTrigger
+					},
+					backgroundColor: myBackgroundColor,
+					is3D: myIs3D
+				};
+
+			// Instantiate and draw our chart, passing in some options.
+			var chart = new google.visualization.PieChart(document.getElementById('piechart-incomes'));
+        	chart.draw(data, options);
+		}
+		
+		function drawChartExpense() {
+
+			// Create the data table.
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Categories');
+			data.addColumn('number', 'Amount');
+			//data.addColumn({type: 'string', role: 'style'});
+			
+			{% for row in user.groupedExpensesArr %}
+				data.addRow(['{{ row.category }}', {{ row.amount_sum }}]);
+			{% endfor %}
+			
+				var options = {
+					title: 'Wydatki - kategorie',
+					titleTextStyle: {
+						color: '#ff5e12',
+						fontName: myFontName,
+						fontSize: myFontSizeTitle
+					},
+					legend: {
+						textStyle: {
+							color: '#ffffff',
+							fontName: myFontName,
+							fontSize: myFontSizeLegend
+						}
+					},
+					tooltip: {
+						trigger: myTooltipTrigger
+					},
+					backgroundColor: myBackgroundColor,
+					is3D: myIs3D
+				};
+
+			// Instantiate and draw our chart, passing in some options.
+			var chart = new google.visualization.PieChart(document.getElementById('piechart-expenses'));
+        	chart.draw(data, options);
+		}
+		
+		function drawChartPaymentMethod() {
+
+			// Create the data table.
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Categories');
+			data.addColumn('number', 'Amount');
+			//data.addColumn({type: 'string', role: 'style'});
+			
+			{% for row in user.groupedPaymentMethodsArr %}
+				data.addRow(['{{ row.payment_method }}', {{ row.amount_sum }}]);
+			{% endfor %}
+			
+				var options = {
+					title: 'Wydatki - Metody płatności',
+					titleTextStyle: {
+						color: '#ff5e12',
+						fontName: myFontName,
+						fontSize: myFontSizeTitle
+					},
+					legend: {
+						textStyle: {
+							color: '#ffffff',
+							fontName: myFontName,
+							fontSize: myFontSizeLegend
+						}
+					},
+					tooltip: {
+						trigger: myTooltipTrigger
+					},
+					backgroundColor: myBackgroundColor,
+					is3D: myIs3D
+				};
+
+			// Instantiate and draw our chart, passing in some options.
+			var chart = new google.visualization.PieChart(document.getElementById('piechart-paymentMethods'));
+        	chart.draw(data, options);
+		}
+	  
+	$(window).resize(function(){
+		if ($(window).width() < 575.98) {
+			myFontSizeTitle = 18;
+			myFontSizeLegend = 10;
+		} else if ($(window).width() < 991.98) {
+			myFontSizeTitle = 25;
+			myFontSizeLegend = 15;
+		} else {
+			myFontSizeTitle = 35;
+			myFontSizeLegend = 25;
+		}
+		{% if user.groupedIncomesArr is not empty %}
+			drawChartIncome();
+		{% endif %}
+		{% if user.groupedExpensesArr is not empty %}
+			drawChartExpense();
+		{% endif %}
+		{% if user.groupedPaymentMethodsArr is not empty %}
+			drawChartPaymentMethod();
+		{% endif %}
+		
+	});
+    </script>
+	
+	<script src = "/js/viewBalanceJavaScript.js"></script> <!-- dates functions -->
+	<script>
+		function checkIncome(amount, errorsContainerId) {
+				
+			if (amount != null) {
+			
+				$.post("add-income/check-income", {
+						amount: amount
+					},
+					function(data, status) {
+						$(errorsContainerId).html(data);
+					}
+				);
+			}
+		}
+	
+		function checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId) {
+			
+			if (amount != null &&
+				firstDay != null &&
+				lastDay != null) {
+				
+				if (categoryId != null) {
+				
+					$.post("add-expense/check-category-limit", {
+						amount: amount,
+						categoryId: categoryId,
+						dateFrom: firstDay,
+						dateTo: lastDay
+					},
+					function(data, status) {
+						$(limitCategoryContainerHtmlId).html(data);
+					});
+				}
+				if (paymentMethodId != null) {
+				
+					$.post("add-expense/check-payment-method-limit", {
+						amount: amount,
+						paymentMethodId: paymentMethodId,
+						dateFrom: firstDay,
+						dateTo: lastDay
+					},
+					function(data, status) {
+						$(limitPaymentMethodContainerHtmlId).html(data);
+					});
+				}
+			}
+		}
+	</script>
+	{% for income in user.fullIncomesArr %}
+		<script>
+		
+			$(document).ready(function(){
+				// Setting proper radio box
+				var htmlCategoryId = "#{{ income.id }}-income-{{ income.category_id }}";
+				$(htmlCategoryId).prop('checked', true);
+				
+				// Setting amount
+				var htmlAmountId = "#amount-income-{{ income.id }}"
+				$(htmlAmountId).prop('value', {{ income.amount }});
+				
+				// Setting date
+				var htmlDateId = "#date-income-{{ income.id }}"
+				$(htmlDateId).prop('value', '{{ income.date }}');
+				
+				// Setting comment
+				var htmlCommentId = "#comment-income-{{ income.id }}"
+				$(htmlCommentId).prop('value', '{{ income.comment }}');
+				
+				// Setting errors containers' id
+				var errorsContainerId = "#errorsContainer-{{ income.id }}";
+				
+				// Checking if amount isn't negative
+				var categoryId = $(htmlCategoryId).val();
+				
+				var amount = $("#amount-income-{{ income.id }}").val();
+				
+				checkIncome(amount, errorsContainerId);
+				
+				$("#amount-income-{{ income.id }}").on("keyup change", function() {
+					amount = $("#amount-income-{{ income.id }}").val();
+					
+					checkIncome(amount, errorsContainerId);
+					
+				});
+			});
+		</script>
+		
+		<script>
+			$(document).ready(function() {
+				$("#date-income-{{ income.id }}").focus(function() {
+					if ($(this).val() == "") $(this).val("{{ income.date }}");
+					$(this).attr("type", "date");
+				});
+				$("#date-income-{{ income.id }}").blur(function() {
+					$(this).attr("type", "text");
+				});
+			});
+		</script>
+	{% endfor %}
+	
+	{% for expense in user.fullExpensesArr %}
+		<script>
+		
+			$(document).ready(function(){
+				// Setting proper radio box
+				var htmlCategoryId = "#{{ expense.id }}-expense-{{ expense.category_id }}";
+				$(htmlCategoryId).prop('checked', true);
+				
+				var htmlPaymentMethodsId = "#" + {{ expense.id }} + "-paymentMethod-" + {{ expense.payment_method_id }};
+				$(htmlPaymentMethodsId).prop('checked', true);
+				
+				// Setting amount
+				var htmlAmountId = "#amount-expense-{{ expense.id }}"
+				$(htmlAmountId).prop('value', {{ expense.amount }});
+				
+				// Setting date
+				var htmlDateId = "#date-expense-{{ expense.id }}"
+				$(htmlDateId).prop('value', '{{ expense.date }}');
+				
+				// Setting comment
+				var htmlCommentId = "#comment-expense-{{ expense.id }}"
+				$(htmlCommentId).prop('value', '{{ expense.comment }}');
+				
+				// Setting limit containers' id
+				var limitCategoryContainerHtmlId = "#limitCategoryContainer-{{ expense.id }}";
+				var limitPaymentMethodContainerHtmlId = "#limitPaymentMethodContainer-{{ expense.id }}";
+				
+				// Checking if limit hasn't been exceeded yet
+				var categoryId = $(htmlCategoryId).val();
+				var paymentMethodId = $(htmlPaymentMethodsId).val();
+				
+				var amount = $("#amount-expense-{{ expense.id }}").val();
+				
+				var date = new Date($("#date-expense-{{ expense.id }}").val());
+				var firstDay = getFirstDayTextOfProvidedDate(date);
+				var lastDay = getLastDayTextOfProvidedDate(date);
+				
+				checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId);
+				
+				$("#date-expense-{{ expense.id }}").on("keyup change", function() {
+					date = new Date($("#date-expense-{{ expense.id }}").val());
+					
+					firstDay = getFirstDayTextOfProvidedDate(date);
+					lastDay = getLastDayTextOfProvidedDate(date);
+					
+					checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId);
+				});
+				$("#amount-expense-{{ expense.id }}").on("keyup change", function() {
+					amount = $("#amount-expense-{{ expense.id }}").val();
+					
+					checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId);
+					
+				});
+				
+				$("input.categoryRadioBtn", "#modal-expense-edit-{{ expense.id }}").click(function() {
+					categoryId = $(this).val();
+					
+					checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId);
+				});
+				
+				$("input.paymentMethodRadioBtn", "#modal-expense-edit-{{ expense.id }}").click(function() {
+					paymentMethodId = $(this).val();
+					
+					checkCategoryAndPaymentMethodOfExpense(amount, firstDay, lastDay, categoryId, paymentMethodId, limitCategoryContainerHtmlId, limitPaymentMethodContainerHtmlId);
+				});
+			});
+		</script>
+		
+		<script>
+			$(document).ready(function() {
+				$("#date-expense-{{ expense.id }}").focus(function() {
+					if ($(this).val() == "") $(this).val("{{ expense.date }}");
+					$(this).attr("type", "date");
+				});
+				$("#date-expense-{{ expense.id }}").blur(function() {
+					$(this).attr("type", "text");
+				});
+			});
+		</script>
+		
+	{% endfor %}
+	
+	<script>
+			
+		$(document).ready(function(){
+			$("#dateFromMobileView").focus(function() {
+				if ($(this).val() == "") $(this).val("{{ dateFrom }}");
+				$(this).attr("type", "date");
+			});
+			$("#dateFromMobileView").blur(function() {
+				$(this).attr("type", "text");
+			});
+			
+			$("#dateToMobileView").focus(function() {
+				if ($(this).val() == "") $(this).val("{{ dateTo }}");
+				$(this).attr("type", "date");
+			});
+			$("#dateToMobileView").blur(function() {
+				$(this).attr("type", "text");
+			});
+			
+			$("#dateFrom").focus(function() {
+				if ($(this).val() == "") $(this).val("{{ dateFrom }}");
+				$(this).attr("type", "date");
+			});
+			$("#dateFrom").blur(function() {
+				$(this).attr("type", "text");
+			});
+			
+			$("#dateTo").focus(function() {
+				if ($(this).val() == "") $(this).val("{{ dateTo }}");
+				$(this).attr("type", "date");
+			});
+			$("#dateTo").blur(function() {
+				$(this).attr("type", "text");
+			});
+		});
+		
+	</script>
+	
+	<script>
+		function showGrid(gridShown) {
+			$("th").css("border-right", "4px solid #666647");
+			$("th").css("border-left", "4px solid #666647");
+			$("div.balanceContentDown th").css("border-top", "4px solid #666647");
+			$("div.balanceContentUp th").css("border-bottom", "4px solid #666647");
+			$("#showGridButton").html("Ukryj siatkę");
+			$("#showGridButtonMobile").html("Ukryj siatkę");
+		}
+		
+		function hideGrid(gridShown) {
+			$("th").css("border", "0");
+			$("#showGridButton").html("Pokaż siatkę");
+			$("#showGridButtonMobile").html("Pokaż siatkę");
+		}
+	
+		$(document).ready(function() {
+			var gridShown = false;
+		
+			$("#showGridButton").click(function() {
+				if (gridShown) {
+					hideGrid(gridShown);
+					gridShown = false;
+				} else {
+					showGrid(gridShown);
+					gridShown = true;
+				}
+			});
+			
+			$("#showGridButtonMobile").click(function() {
+				if (gridShown) {
+					hideGrid(gridShown);
+					gridShown = false;
+				} else {
+					showGrid(gridShown);
+					gridShown = true;
+				}
+			});
+		});
+	</script>
+	
+{% endblock %}
+
+{% block modal %}
+	{% for income in user.fullIncomesArr %}
+		
+		<div class="modal fade" id="modal-income-delete-{{ income.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Usuń</h5>
+					</div>
+					<form method = "post" action = "/view-balance/delete-income">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+									Właśnie usuwasz rekord. Na pewno tego chcesz?
+								</div>
+								
+								<input
+									type = "hidden"
+									name = "recordId"
+									value = "{{ income.id }}"
+								>
+							
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Nie!
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Tak!
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-income-multiDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog myModalDialogMultiDelete">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Usuń</h5>
+					</div>
+					<form method = "post" action = "/view-balance/multi-delete-income">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+								
+								{% if user.fullIncomesArr %}
+									<div class = "balanceContentDown">
+										<div class = "viewBalanceTables">
+											<table class = "positiveBalanceContent">
+												<thead class = "positiveBalanceContent">
+													<tr class = "positiveBalanceContent">
+														<th class = "id"></th>
+														<th class = "date">Data</th>
+														<th class = "amount">Kwota [zł]</th>
+														<th class = "category">Kategoria</th>
+														<th class = "comment">Komentarz</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for row in user.fullIncomesArr %}
+														{% if loop.index is not divisible  by(2) %}
+															<tr class = "positiveBalanceContentOdd">
+																<th class = "id">
+																	<input
+																		type = "checkbox"
+																		name = "{{ row.id }}"
+																		class = "viewBalanceModalCheckbox"
+																	>
+																</th>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														{% else %}
+															<tr class = "positiveBalanceContentEven">
+																<th class = "id">
+																	<input
+																		type = "checkbox"
+																		name = "{{ row.id }}"
+																		class = "viewBalanceModalCheckbox"
+																	>
+																</th>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														{% endif %}
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</div>
+								{% endif %}
+								
+								{% for errorId in multiDeleteIncomeErrArr %}
+									{% for row in user.fullIncomesArr %}
+										<div class = "allErrorMsgsDiv">
+											Pojawiło się kilka błędów. Sprawdź te rekordy:
+											{% if errorId == row.id %}
+												<div class = "errorMsgs">
+													<table>
+														<thead>
+															<tr>
+																<th class = "date">Data</th>
+																<th class = "amount">Kwota [zł]</th>
+																<th class = "category">Kategoria</th>
+																<th class = "comment">Komentarz</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											{% endif %}
+										</div>
+									{% endfor %}
+								{% endfor %}
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Wróć
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Usuń
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-income-edit-{{ income.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog myModalDialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edytuj</h5>
+					</div>
+					<form method = "post" action = "/view-balance/update-income">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+								
+								<input
+									type = "hidden"
+									name = "recordId"
+									value = "{{ income.id }}"
+								>
+								
+								<div class = "col-12 category">
+								
+									<fieldset class = "category">
+									
+										<legend> Kategorie </legend>
+										
+											{% for incomeCategory in user.incomeCategoriesArr %}
+												<div class = "columns">
+													<div>
+														<label>
+															<input 
+																type = "radio"
+																value = "{{ incomeCategory.id }}"
+																name = "category"
+																class = "categoryRadioBtn"
+																id = "{{ income.id }}-income-{{ incomeCategory.id }}"
+															>
+															{{ incomeCategory.name }}
+															{% if incomeCategory.user_limit %}
+																<div>
+																	<span class = "limitText">
+																		Limit: {{ incomeCategory.user_limit }} zł
+																	</span>
+																</div>
+															{% endif %}
+														</label>
+													</div>
+												</div>
+											{% endfor %}
+																							
+										<div style = "clear:both;"></div>
+										
+									</fieldset>
+									
+								</div>
+								
+								<div class = "col-12">
+									<div id = "errorsContainer-{{ income.id }}">
+									</div>
+								</div>
+								
+								<div class = "col-12 col-md-5 col-lg-4" style = "float:left;">
+									
+									<div class = "col-12 amountAndDate">
+										<input
+											class = "form-control transferForm"
+											type = "number"
+											step = 0.01
+											placeholder = "kwota"
+											name = "amount"
+											id = "amount-income-{{ income.id }}"
+											required
+										>					
+										<input
+											class = "form-control transferForm"
+											id = "date-income-{{ income.id }}"
+											type = "text"
+											name = "date"
+											placeholder = "data"
+											required
+										>
+									</div>
+									<div style = "clear:both;"></div>
+									
+								</div>
+							
+								<div class = "col-12 col-md-7 col-lg-8" style = "float:left;">
+																				
+									<div class = "col-12 textArea">
+										<textArea
+											class = "form-control textArea"
+											placeholder = "komentarz (opcjonalne)"
+											name = "comment"
+											maxlength = "100"
+											id = "comment-income-{{ income.id }}"
+										></textArea>
+									</div>
+									<div style = "clear:both;"></div>
+								
+								</div>
+								<div style = "clear:both;"></div>
+					
+							</div>
+							
+							{% if user.errors is not empty %}
+								<div class = "allErrorMsgsDiv">
+									<div class = "errorMsgs">Check it:</div>
+									<ul>
+										{% for error in user.errors %}
+											<li><div class = "errorMsgs">{{ error }}</div></li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Zamknij
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Zapisz zmiany
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	{% endfor %}
+	{% for expense in user.fullExpensesArr %}
+		
+		<div class="modal fade" id="modal-expense-delete-{{ expense.id }}" tabindex="-1" aria-labelledby="modalExpenseDelete" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Usuń</h5>
+					</div>
+					<form method = "post" action = "/view-balance/delete-expense">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+									Właśnie usuwasz rekord. Na pewno tego chcesz?
+								</div>
+								
+								<input
+									type = "hidden"
+									name = "recordId"
+									value = "{{ expense.id }}"
+								>
+							
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Nie!
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Tak!
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-expense-multiDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog myModalDialogMultiDelete">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Usuń</h5>
+					</div>
+					<form method = "post" action = "/view-balance/multi-delete-expense">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+								
+								{% if user.fullExpensesArr %}
+									<div class = "balanceContentDown">
+										<div class = "viewBalanceTables">
+											<table class = "negativeBalanceContent">
+													<thead class = "negativeBalanceContent">
+														<tr class = "negativeBalanceContent">
+															<th class = "id"></th>
+															<th class = "date">Data</th>
+															<th class = "amount">Kwota [zł]</th>
+															<th class = "category">Kategoria</th>
+															<th class = "category">Metoda płatności</th>
+															<th class = "comment">Komentarz</th>
+														</tr>
+													</thead>
+												<tbody>
+													{% for row in user.fullExpensesArr %}
+														{% if loop.index is not divisible  by(2) %}
+															<tr class = "negativeBalanceContentOdd">
+																<th class = "id">
+																	<input
+																		type = "checkbox"
+																		name = "{{ row.id }}"
+																		class = "viewBalanceModalCheckbox"
+																	>
+																</th>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "category">{{ row.payment_method }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														{% else %}
+															<tr class = "negativeBalanceContentEven">
+																<th class = "id">
+																	<input
+																		type = "checkbox"
+																		name = "{{ row.id }}"
+																		class = "viewBalanceModalCheckbox"
+																	>
+																</th>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "category">{{ row.payment_method }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														{% endif %}
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</div>
+								{% endif %}
+								
+								{% for errorId in multiDeleteExpenseErrArr %}
+									{% for row in user.fullExpensesArr %}
+										<div class = "allErrorMsgsDiv">
+											Pojawiło się kilka błędów. Sprawdź te rekordy:
+											{% if errorId == row.id %}
+												<div class = "errorMsgs">
+													<table>
+														<thead>
+															<tr>
+																<th class = "date">Data</th>
+																<th class = "amount">Kwota [zł]</th>
+																<th class = "category">Kategoria</th>
+																<th class = "category">Metoda płatności</th>
+																<th class = "comment">Komentarz</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<th class = "date">{{ row.date }}</th>
+																<th class = "amount">{{ row.amount }}</th>
+																<th class = "category">{{ row.category }}</th>
+																<th class = "category">{{ row.payment_method }}</th>
+																<th class = "comment">{{ row.comment }}</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											{% endif %}
+										</div>
+									{% endfor %}
+								{% endfor %}
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Wróć
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Usuń
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-expense-edit-{{ expense.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog myModalDialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edytuj</h5>
+					</div>
+					<form method = "post" action = "/view-balance/update-expense">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+								
+								<input
+									type = "hidden"
+									name = "recordId"
+									value = "{{ expense.id }}"
+								>
+								
+								<div class = "col-12 category">
+								
+									<fieldset class = "category">
+									
+										<legend> Kategorie </legend>
+										
+											{% for expenseCategory in user.expenseCategoriesArr %}
+												<div class = "columns">
+													<div>
+														<label>
+															<input 
+																type = "radio"
+																value = "{{ expenseCategory.id }}"
+																name = "category"
+																class = "categoryRadioBtn"
+																id = "{{ expense.id }}-expense-{{ expenseCategory.id }}"
+															>
+															{{ expenseCategory.name }}
+															{% if expenseCategory.user_limit %}
+																<div>
+																	<span class = "limitText">
+																		Limit: {{ expenseCategory.user_limit }} zł
+																	</span>
+																</div>
+															{% endif %}
+														</label>
+													</div>
+												</div>
+											{% endfor %}
+																							
+										<div style = "clear:both;"></div>
+										
+									</fieldset>
+									
+									<fieldset class = "category">
+										<legend class = "paymentMethod"> Metody płatności </legend>
+										
+											{% for paymentMethod in user.paymentMethodsArr %}
+												<div class = "columns">
+													<div>
+														<label>
+															<input
+																type = "radio"
+																value = "{{ paymentMethod.id }}"
+																name = "paymentMethod"
+																class = "paymentMethodRadioBtn"
+																id = "{{ expense.id }}-paymentMethod-{{ paymentMethod.id }}"
+															>
+															{{ paymentMethod.name }}
+															{% if paymentMethod.user_limit %}
+																<div>
+																	<span class = "limitText">
+																		Limit: {{ paymentMethod.user_limit }} zł
+																	</span>
+																</div>
+															{% endif %}
+														</label>
+													</div>
+												</div>
+											{% endfor %}
+																							
+										<div style = "clear:both;"></div>
+									</fieldset>
+									
+								</div>
+								
+								<div class = "col-12">
+									<div id = "limitCategoryContainer-{{ expense.id }}">
+									</div>
+									<div id = "limitPaymentMethodContainer-{{ expense.id }}">
+									</div>
+								</div>
+								
+								<div class = "col-12 col-md-5 col-lg-4" style = "float:left;">
+									
+									<div class = "col-12 amountAndDate">
+										<input
+											class = "form-control transferForm"
+											type = "number"
+											step = 0.01
+											placeholder = "kwota"
+											name = "amount"
+											id = "amount-expense-{{ expense.id }}"
+											required
+										>					
+										<input
+											class = "form-control transferForm"
+											id = "date-expense-{{ expense.id }}"
+											type = "text"
+											name = "date"
+											placeholder = "data"
+											required
+										>
+									</div>
+									<div style = "clear:both;"></div>
+									
+								</div>
+							
+								<div class = "col-12 col-md-7 col-lg-8" style = "float:left;">
+																				
+									<div class = "col-12 textArea">
+										<textArea
+											class = "form-control textArea"
+											placeholder = "komentarz (opcjonalne)"
+											name = "comment"
+											maxlength = "100"
+											id = "comment-expense-{{ expense.id }}"
+										></textArea>
+									</div>
+									<div style = "clear:both;"></div>
+								
+								</div>
+								<div style = "clear:both;"></div>
+					
+							</div>
+							
+							{% if user.errors is not empty %}
+								<div class = "allErrorMsgsDiv">
+									<div class = "errorMsgs">Check it:</div>
+									<ul>
+										{% for error in user.errors %}
+											<li><div class = "errorMsgs">{{ error }}</div></li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Zamknij
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Zapisz zmiany
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	{% endfor %}
+{% endblock %}
+
+
+{% block body %}
+
+	<header>
+									
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">
+				Twój bilans?
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					A piosenka ta<br />
+					O kluseczkach małych dwa
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					Okej, Ela! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca, Kiń. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca, kochana. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p Swoją drogą jak twoja "Perfume Island"?
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, Tola, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p Jeśli potrzebujesz czegoś jeszcze, to śmiało dawaj mi znać :)
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					Okej, Baś! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					Okej, Kubson! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Dobra, pani Matko! Zobaczmy nasze zestawienie! To jest zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					Okej, panie Złota Rączka! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					Okej! Tutaj macie zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					Oke! Tutaj masz zestawienie z bieżącego miesiąca, Cornisto. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					Zatem, Joanno! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					Okej, Szoszana! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					Za Gomeza! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					Za potęgę magii! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					Okej! W takim razie sprawdźmy zestawienie. Tutaj jest z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki, Nygson ;p
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					Okej, Blake s! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					Okej, Norbert! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					Dobra, Madzix! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					Okej, mój drogi Maczku! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					Zatem, Filipie! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					Okej, sprawdźmy bilans! Btw, może będziesz chciał kiedyś otworzyć restaurację? :p Trzymaj! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca, Janko. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% else %}
+					Okej! Tutaj masz zestawienie z bieżącego miesiąca. Jeśli chcesz sprawdzić inny okres czasu, daj mi datę, a ja znajdę potrzebne książki ;p
+				{% endif %}
+			</div>
+		</div>
+
+	</header>
+
+	<div class = "viewBalanceContent">
+
+		<div class = "balanceControlPanelLeft">
+			
+			<form method = "post" action = "/view-balance">
+			
+				<div class = "row">
+					
+					<div class = "col-12 balanceControlPanelDates">
+						<div class = "col-12 col-sm-6 balanceControlPanelDate">
+							<input class = "form-control balanceControlPanel" type = "text" name = "dateFrom" id = "dateFromMobileView" placeholder = "data od" required>
+						</div>
+						
+						<div class = "col-12 col-sm-6 balanceControlPanelDate">
+							<input class = "form-control balanceControlPanel" type = "text" name = "dateTo" id = "dateToMobileView" placeholder = "data do" required>
+						</div>
+						<div style = "clear: both;"></div>
+					</div>
+				
+				</div>
+				
+				<div class = "row">
+				
+					<div class = "col-12 col-sm-10">
+						<div class = "balanceControlPanelMonthYearButtons">
+							<button class = "balanceControlPanel" type = "button" onclick = "inputPresentMonthDate('dateFromMobileView', 'dateToMobileView')">Bieżący miesiąc</button>
+							<button class = "balanceControlPanel" type = "button" onclick = "inputPreviousMonthDate('dateFromMobileView', 'dateToMobileView')">Poprzedni miesiąc</button>
+							<button class = "balanceControlPanel" type = "button" onclick = "inputPresentYearDate('dateFromMobileView', 'dateToMobileView')">Bieżący rok</button>
+							<div style = "clear: both;"></div>
+						</div>
+					</div>
+					
+					<div class = "col-12 col-sm-2 okButtonCol">
+						<div class = "balanceControlPanelSubmit">
+							<button class = "balanceControlPanelSubmit"><i class = "icon-ok"></i></button>
+							<div style = "clear: both;"></div>
+						</div>
+					</div>
+					
+					<div class = "col-12">
+						<div class = "showGridButton">
+							<button class = "balanceControlPanel showGridButton" type = "button" id = "showGridButtonMobile">Pokaż siatkę</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "row">
+				
+					<a href = "/main-menu">
+						<div class = "col-12 backViewBalance">
+							<i class = "icon-undo"></i><br />
+							<span class = "text">Wróć</span>
+						</div>
+					</a>
+				
+				</div>
+				
+			</form>
+			
+		</div>
+		<div style = "clear: both;"></div>
+		
+		<div class = "balanceContentUp">
+			<div class = "row">
+				<div class = "col-12 col-sm-6">
+					<div class = "viewBalanceTablesPositive">
+						<div class = "viewBalanceTableNamesPositive">Krótkie zestawienie przychodów</div>
+						{% if user.groupedIncomesArr %}
+							<table class = "positiveBalanceContent">
+									<thead class = "positiveBalanceContent">
+										<tr class = "positiveBalanceContent">
+											<th class = "amount">Kwota [zł]</th>
+											<th class = "category">Kategoria</th>
+										</tr>
+									</thead>
+								<tbody>
+									{% for row in user.groupedIncomesArr %}
+										{% if loop.index is not divisible  by(2) %}
+											<tr class = "positiveBalanceContentOdd">
+												<th class = "amount">{{ row.amount_sum }}</th>
+												<th class = "category">{{ row.category }}</th>
+											</tr>
+										{% else %}
+											<tr class = "positiveBalanceContentEven">
+												<th class = "amount">{{ row.amount_sum }}</th>
+												<th class = "category">{{ row.category }}</th>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						{% else %}
+							<div class = 'narrator'>
+								Tutaj powinny być rekordy. Wybierz okres czasu w panelu sterowania po lewej, prawej lub na górze. Jeśli masz już to za sobą, oznacza to, że nie masz tu żadnych rekordów albo... mamy tutaj jakiegoś przebrzydłego robaka w książkach... Proszę, daj znać o tym twórcy! :o
+							</div>
+						{% endif %}
+						
+					</div>
+					<div style = "clear: both;"></div>
+				</div>
+				
+				<div class = "col-12 col-sm-6">
+					<div class = "viewBalanceTablesNegative">
+						<div class = "viewBalanceTableNamesNegative">Krótkie zestawienie wydatków</div>
+						{% if user.groupedExpensesArr %}
+							<table class = "negativeBalanceContent">
+									<thead class = "negativeBalanceContent">
+										<tr class = "negativeBalanceContent">
+											<th class = "amount">Kwota [zł]</th>
+											<th class = "category">Kategoria</th>
+										</tr>
+									</thead>
+								<tbody>
+									{% for row in user.groupedExpensesArr %}
+										{% if loop.index is not divisible  by(2) %}
+											<tr class = "negativeBalanceContentOdd">
+												<th class = "amount">{{ row.amount_sum }}</th>
+												<th class = "category">{{ row.category }}</th>
+											</tr>
+										{% else %}
+											<tr class = "negativeBalanceContentEven">
+												<th class = "amount">{{ row.amount_sum }}</th>
+												<th class = "category">{{ row.category }}</th>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						{% else %}
+							<div class = 'narrator'>
+								Tutaj powinny być rekordy. Wybierz okres czasu w panelu sterowania po lewej, prawej lub na górze. Jeśli masz już to za sobą, oznacza to, że nie masz tu żadnych rekordów albo... mamy tutaj jakiegoś przebrzydłego robaka w książkach... Proszę, daj znać o tym twórcy! :o
+							</div>
+						{% endif %}
+					</div>
+					<div style = "clear: both;"></div>
+				</div>
+			</div>
+
+		</div>
+		
+		<div class = "balanceControlPanelRight">
+		
+			<form method = "post" action = "/view-balance">
+				<div class = "balanceControlPanelDate">
+					<input class = "form-control balanceControlPanel" type = "text" name = "dateFrom" placeholder = "data od" id = "dateFrom" required>
+				</div>
+				<div class = "balanceControlPanelDate">
+					<input class = "form-control balanceControlPanel" type = "text" name = "dateTo" placeholder = "data do" id = "dateTo" required>
+				</div>
+				<div style = "clear: both;"></div>
+				
+				<div class = "balanceControlPanelMonthYearButtons">
+					<button class = "balanceControlPanel" type = "button" onclick = "inputPresentMonthDate()">Bieżący miesiąc</button>
+					<button class = "balanceControlPanel" type = "button" onclick = "inputPreviousMonthDate()">Poprzedni miesiąc</button>
+					<button class = "balanceControlPanel" type = "button" onclick = "inputPresentYearDate()">Bieżący rok</button>
+				</div>
+				
+				<button class = "balanceControlPanelSubmit"><i class = "icon-ok"></i></button>
+				<div style = "clear: both;"></div>
+	
+				<button class = "balanceControlPanel showGridButton" type = "button" id = "showGridButton">Pokaż siatkę</button>
+				
+				<a href = "main-menu">
+					<div class = "backViewBalance">
+						<i class = "icon-undo"></i><br />
+						<span class = "text">Wróć</span>
+					</div>
+				</a>
+			</form>
+		</div>
+		<div style = "clear: both;"></div>
+		
+		<div class = "balanceContentDownInfo">
+			<div class = "narrator">
+				[Jeśli chcesz zobaczyć pełne zestawienie, włącz autoobrót i przekręć telefon.]
+			</div>
+		</div>
+		
+		<div class = "balanceContentDown">
+			<div class = "viewBalanceTables">
+				<div class = "viewBalanceTableNamesPositive">Pełne zestawienie przychodów</div>
+				{% if user.fullIncomesArr %}
+					<table class = "positiveBalanceContent">
+							<thead class = "positiveBalanceContent">
+								<tr class = "positiveBalanceContent">
+									<th class = "edit"></th>
+									<th class = "delete"></th>
+									<th class = "date">Data</th>
+									<th class = "amount">Kwota [zł]</th>
+									<th class = "category">Kategoria</th>
+									<th class = "comment">Komentarz</th>
+								</tr>
+							</thead>
+						<tbody>
+							{% for row in user.fullIncomesArr %}
+								{% if loop.index is not divisible  by(2) %}
+									<tr class = "positiveBalanceContentOdd">
+										<th class = "edit">
+											<div
+												class = "viewBalanceEditRecord"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-income-edit-{{ row.id }}"
+											>
+												<i class = "icon-edit"></i>
+											</div>
+										</th>
+										<th class = "delete">
+											<div
+												class = "viewBalanceDeleteRecord viewBalanceDeleteRecordPositive"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-income-delete-{{ row.id }}"
+											>
+												<i class = "icon-trash-empty positive-trash-empty"></i>
+											</div>
+										</th>
+										<th class = "date">{{ row.date }}</th>
+										<th class = "amount">{{ row.amount }}</th>
+										<th class = "category">{{ row.category }}</th>
+										<th class = "comment">{{ row.comment }}</th>
+									</tr>
+								{% else %}
+									<tr class = "positiveBalanceContentEven">
+										<th class = "edit">
+											<div
+												class = "viewBalanceEditRecord"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-income-edit-{{ row.id }}"
+											>
+												<i class = "icon-edit"></i>
+											</div>
+										</th>
+										<th class = "delete">
+											<div
+												class = "viewBalanceDeleteRecord viewBalanceDeleteRecordPositive"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-income-delete-{{ row.id }}"
+											>
+												<i class = "icon-trash-empty positive-trash-empty"></i>
+											</div>
+										</th>
+										<th class = "date">{{ row.date }}</th>
+										<th class = "amount">{{ row.amount }}</th>
+										<th class = "category">{{ row.category }}</th>
+										<th class = "comment">{{ row.comment }}</th>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+					<div
+						class = "buttonMultiDelete"
+						type="button"
+						data-bs-toggle="modal"
+						data-bs-target="#modal-income-multiDelete"
+					>
+						Usuń kilka wpisów
+					</div>
+				{% else %}
+					<div class = 'narrator'>
+						Tutaj powinny być rekordy. Wybierz okres czasu w panelu sterowania po lewej, prawej lub na górze. Jeśli masz już to za sobą, oznacza to, że nie masz tu żadnych rekordów albo... mamy tutaj jakiegoś przebrzydłego robaka w książkach... Proszę, daj znać o tym twórcy! :o
+					</div>
+				{% endif %}
+			</div>
+			
+			{% if user.groupedIncomesArr is not empty %}
+			<div
+				id = "piechart-incomes"
+				class = "piechart"
+			></div>
+			{% endif %}
+			
+			<div class = "viewBalanceTables">
+				<div class = "viewBalanceTableNamesNegative">Pełne zestawienie wydatków</div>
+				{% if user.fullExpensesArr %}
+					<table class = "negativeBalanceContent">
+							<thead class = "negativeBalanceContent">
+								<tr class = "negativeBalanceContent">
+									<th class = "edit"></th>
+									<th class = "delete"></th>
+									<th class = "date">Data</th>
+									<th class = "amount">Kwota [zł]</th>
+									<th class = "category">Kategoria</th>
+									<th class = "paymentMethod">Metoda płatności</th>
+									<th class = "comment"><div class = "tableComment">Komentarz</div></th>
+								</tr>
+							</thead>
+						<tbody>
+							{% for row in user.fullExpensesArr %}
+								{% if loop.index is not divisible  by(2) %}
+									<tr class = "negativeBalanceContentOdd">
+										<th class = "edit">
+											<div
+												class = "viewBalanceEditRecord"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-expense-edit-{{ row.id }}"
+											>
+												<i class = "icon-edit"></i>
+											</div>
+										</th>
+										<th class = "delete">
+											<div
+												class = "viewBalanceDeleteRecord viewBalanceDeleteRecordNegative"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-expense-delete-{{ row.id }}"
+											>
+												<i class = "icon-trash-empty"></i>
+											</div>
+										</th>
+										<th class = "date">{{ row.date }}</th>
+										<th class = "amount">{{ row.amount }}</th>
+										<th class = "category">{{ row.category }}</th>
+										<th class = "paymentMethod">{{ row.payment_method }}</th>
+										<th class = "comment">
+											<div class = "tableComment">{{ row.comment }}</div>
+										</th>
+									</tr>
+								{% else %}
+									<tr class = "negativeBalanceContentEven">
+										<th class = "edit">
+											<div
+												class = "viewBalanceEditRecord"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-expense-edit-{{ row.id }}"
+											>
+												<i class = "icon-edit"></i>
+											</div>
+										</th>
+										<th class = "delete">
+											<div
+												class = "viewBalanceDeleteRecord viewBalanceDeleteRecordNegative"
+												type="button"
+												data-bs-toggle="modal"
+												data-bs-target="#modal-expense-delete-{{ row.id }}"
+											>
+												<i class = "icon-trash-empty"></i>
+											</div>
+										</th>
+										<th class = "date">{{ row.date }}</th>
+										<th class = "amount">{{ row.amount }}</th>
+										<th class = "category">{{ row.category }}</th>
+										<th class = "paymentMethod">{{ row.payment_method }}</th>
+										<th class = "comment">
+											<div class = "tableComment">{{ row.comment }}</div>
+										</th>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+					<div
+						class = "buttonMultiDelete"
+						type="button"
+						data-bs-toggle="modal"
+						data-bs-target="#modal-expense-multiDelete"
+					>
+						Usuń kilka wpisów
+					</div>
+				{% else %}
+					<div class = 'narrator'>
+						Tutaj powinny być rekordy. Wybierz okres czasu w panelu sterowania po lewej, prawej lub na górze. Jeśli masz już to za sobą, oznacza to, że nie masz tu żadnych rekordów albo... mamy tutaj jakiegoś przebrzydłego robaka w książkach... Proszę, daj znać o tym twórcy! :o
+					</div>
+				{% endif %}
+			</div>
+			{% if user.groupedExpensesArr is not empty %}
+			<div
+				style = "float:left;"
+				id = "piechart-expenses"
+				class = "piechart"
+			></div>
+			{% endif %}
+			{% if user.groupedPaymentMethodsArr is not empty %}
+			<div
+				style = "float:left;"
+				id = "piechart-paymentMethods"
+				class = "piechart"
+			></div>
+			<div style = "clear: both;"></div>
+			{% endif %}
+			
+			{% if user.balance %}
+				<div class = "balance">
+					Twój bilans:
+					{% if user.balance < 0 %}
+						 <span class = "balanceNegative">{{ user.balance }} zł</span><br />
+						{% if user.whichKindOfUser == 'Cornisto' %}
+							Co tam się z Tobą dzieje? Skąd to zwątpienie?
+						{% else %}
+							Podczas tego okresu było <span class = 'balanceNegative'>trochę wydatków</span>, nie?
+						{% endif %}
+					{% elseif user.balance > 0 %}
+						 <span class = "balancePositive">{{ user.balance }} zł</span><br />
+						Ten okres wygląda <span class = "balancePositive">całkiem dobrze :)</span>
+					{% elseif user.balance == 0 %}
+						 <span class = "balanceNeutral">{{ user.balance }} zł</span><br />
+						Ten okres wygląda <span class = "balanceNeutral">ok :)</span>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+		<div style = "clear: both;"></div>
+
+	</div>
+{% endblock %}

@@ -1,0 +1,2307 @@
+/*================================ General and default settings ================================*/
+
+:root {
+  --balanceControlPanelButtons-margin-left-right: 5px;
+}
+
+body
+{
+	background-image: url("../img/planting-trees-coin-pile-with-sunlight.jpg");
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+	color: #ffffff;
+	font-family: 'Caveat', cursive;
+	font-weight: 500;
+	font-size: 35px;
+	margin: 0;
+	line-height: 1.25;
+}
+
+body.userPanel
+{
+	background-image: url("../img/jukenseiNoNatsu.jpg");
+}
+
+.japaneseText
+{
+	font-size: 20px;
+}
+
+.narrator
+{
+	color: #b5af8d;
+}
+
+div.logo
+{
+	/*height: 86px;*/
+	background-color: #665647dc;
+	font-family: 'Nerko One', cursive;
+	font-size: 60px;
+	color: #63D603;
+	text-align: center;
+	margin-top: 4vh;
+	margin-bottom: 6.5vh;
+	padding: 10px;
+	border-top: 5px solid #dedea0cc;
+	border-bottom: 5px solid #dedea0cc;
+	line-height: 1;
+	
+}
+
+div.logoIcon,
+div.fullLogo,
+div.shortLogo
+{
+	display: inline-block;
+}
+
+div.shortLogo
+{
+	display: none;
+}
+
+span.logo
+{
+	color: #fcf75f;
+}
+
+div.myContainer,
+div.myViewBalanceContainer,
+div.myUserSitesContainer
+{
+	background-color: #665647;
+	width: 80%;
+	max-width: 1010px;
+	padding: 25px 40px;
+	margin-left: auto;
+	margin-right: auto;
+	-webkit-box-shadow: 3px 3px 30px 5px rgba(34,18,3,1);
+	-moz-box-shadow: 3px 3px 30px 5px rgba(34,18,3,1);
+	box-shadow: 3px 3px 30px 5px rgba(34,18,3,1);
+	text-align: justify;
+	border: 5px solid #666647;
+	border-radius: 10px;
+	opacity: 0.9;
+}
+
+.alert
+{
+	text-align: center;
+	background-color: transparent;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 4px solid;
+}
+
+.alert-warning
+{
+	color: #ff8c4ac5;
+	border-color: #ff8c4aa5;
+}
+
+.alert-success
+{
+	color: #63d603b5;
+	border-color: #63d60385;
+}
+
+.alert-info
+{
+	color: #00b3bf;
+	border-color: #00b3bfa5;
+}
+
+h1.articleHeaders
+{
+	font-weight: 700;
+	font-size: 55px;
+	color: #ffffaa;
+	margin-top: 0;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+div.buttonsContainer,
+div.welcomeNewUserButtonsContainer
+{
+	width: 486px;
+	margin: 20px auto 0;
+}
+
+/* Buttons' main syle -------------------------------- */
+div.langButtons
+{
+	border-top: 5px solid #666647;
+	padding-bottom: 15px;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+div.langButton
+{
+	width: 50%;
+	border-bottom: 5px solid #666647; /* #666647 */
+	border-top: none;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	font-size: 25px;
+	text-align: center;
+	padding: 5px;
+}
+div.langButton:hover
+{
+	background-color: #cdcd905c;
+    cursor: pointer;
+	color: #ffffaa;
+}
+div.langActive
+{
+	color: #52b3f3;
+	background-color: #41a2e266;
+}
+
+button,
+div.button,
+div.registerButton,
+div.logInButton,
+div.incomeButton,
+div.expenseButton,
+div.settingsButton,
+div.logOutButton,
+div.viewBalanceButton,
+button.addExpense,
+button.addIncome,
+div.back,
+div.backViewBalance
+{
+	width: 233px;
+	height: 144px;
+	margin: 5px;
+	text-align: center;
+	font-size: 37px;
+	background-color: #bcbc805c;
+	border: 5px solid #dedea05c;
+	border-radius: 10px;
+	padding-top: 23px;
+	padding-bottom: 10px;
+}
+
+.buttonsContainer a,
+.welcomeNewUserButtonsContainer a
+{
+	display: block;
+}
+
+div.button:hover,
+div.registerButton:hover,
+div.logInButton:hover,
+div.incomeButton:hover,
+div.expenseButton:hover,
+div.settingsButton:hover,
+div.logOutButton:hover,
+div.viewBalanceButton:hover,
+button.addExpense:hover,
+button.addIncome:hover,
+div.back:hover,
+div.backViewBalance:hover
+{
+	background-color: #cdcd905c;
+	cursor: pointer;
+}
+
+div.back,
+div.backViewBalance
+{
+	float:left;
+	width: 223px;
+}
+
+div.back:hover,
+div.backViewBalance:hover
+{
+	color: #228de9;
+}
+
+/* Addition to "buttons" type buttons */
+button.addExpense,
+button.addIncome
+{
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 10px;
+	font-family: 'Caveat', cursive;
+	color: #ffffff;
+	display: block;
+}
+
+/*----------------------------------------------------------------------*/
+
+.form-control
+{
+	line-height: 1;
+}
+
+input.myInput,
+select.myInput
+{
+	display: block;
+	background-color: #efefef;
+	color: #666666;
+	border: 2px solid #dddddd;
+	border-radius: 5px;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	padding: 10px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+/* Main Focus for the input elements ---------------------------------- */
+/* I don't know why, but without that specyfic declarations everything (except color) stops work. Inputs type=date are needed to be declared  that way too... */
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+input[type=date]:focus,
+textArea.textArea:focus,
+textArea.textAreaIncome:focus,
+select.myInput:focus
+{
+	-webkit-box-shadow: 0px 0px 5px 2px rgba(204,204,204,0.9);
+	-moz-box-shadow: 0px 0px 5px 2px rgba(204,204,204,0.9);
+	box-shadow: 0px 0px 5px 2px rgba(204,204,204,0.9);
+	border: 2px solid  #ffff99;
+	background-color: #ffffdd;
+	color: #63D603; /* letters color */
+	
+}
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+/* Placeholder color */
+input::-webkit-input-placeholder,
+input[type=date],
+textArea::-webkit-input-placeholder
+{
+    color: #777777;
+}
+
+/* Placeholder color - on focus */
+input:focus::-webkit-input-placeholder,
+input[type=date]:focus,
+textArea:focus::-webkit-input-placeholder
+{
+    color: #63D603;
+}
+
+/* Firefox < 19 */
+/* Placeholder color */
+input:-moz-placeholder,
+input[type=date],
+textArea:-moz-placeholder
+{
+    color: #777777;
+}
+/* Placeholder color - on focus */
+input:focus:-moz-placeholder,
+input[type=date]:focus,
+textArea:focus:-moz-placeholder
+{
+    color: #63D603;
+}
+
+/* Firefox > 19 */
+/* Placeholder color */
+input::-moz-placeholder,
+input[type=date],
+textArea::-moz-placeholder
+{
+    color: #777777;
+	opacity: 0.9;
+}
+/* Placeholder color - on focus */
+input:focus::-moz-placeholder,
+input[type=date]:focus,
+textArea:focus::-moz-placeholder
+{
+    color: #63D603;
+	opacity: 0.9;
+}
+
+/* Internet Explorer 10 */
+/* Placeholder color */
+input:-ms-input-placeholder,
+input[type=date],
+textArea:-ms-input-placeholder
+{
+    color: #777777;
+}
+/* Placeholder color - on focus */
+input:focus:-ms-input-placeholder,
+input[type=date]:focus,
+textArea:focus:-ms-input-placeholder
+{
+    color: #63D603;
+}
+
+/*-----------------------------------------------------------*/
+
+.wrapper
+{
+	min-height: calc(100vh - 93px - 6.5vh - 4vh - 84px - 6.5vh - 4vh); /* form footer: - 84px - 6.5vh - 4vh; from logo: -93px - 6.5vh - 4vh */
+}
+
+.footer
+{
+	background-color: #665647dc;
+	/*height: 86px;*/
+	margin-top: 6.5vh;
+	margin-bottom: 4vh;
+	color: #63D603;
+	text-align: center;
+	font-size: 30px;
+	border-top: 5px solid #dedea0cc;
+	border-bottom: 5px solid #dedea0cc;
+}
+
+a
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a.disabled
+{
+	color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+div.myLink > a
+{
+	color: #ffffaa;
+}
+
+div.myLink > a:hover
+{
+	color: #63D603;
+}
+
+div.footerAuthor
+{
+	color: #fcf75f;
+}
+
+div.footer div
+{
+	display: inline-block;
+}
+
+/*--------------------- Modal windows ---------------------*/
+div.myModalContent
+{
+	background-color: #665647;
+	border: 5px solid #666647;
+	border-radius: 10px;
+	opacity: 0.9;
+}
+
+h5.myModalTitle
+{
+	font-size: 35px;
+	color: #ffffaa;
+}
+
+div.myModalFooter
+{
+	padding: 0;
+}
+
+div.myModalButtons
+{
+	width: 100%;
+	margin: 0;
+}
+button.myModal
+{
+	width: 50%;
+	height: 100%!important;
+	border: none;
+	border-radius: 0;
+	padding: 0;
+	padding-top: 17px;
+	padding-bottom: 10px;
+    margin: 0;
+	font-size: 25px;
+	color: white;
+}
+
+/*--------------------- Srollbar ---------------------*/
+::-webkit-scrollbar {
+  width: 15px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #665647; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #666647; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #777758;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0,0,0,0);
+}
+/*================================ User sites ================================*/
+div.myUserSitesContainer
+{
+	padding-top: 0;
+}
+
+nav.myNavbar
+{
+	margin-bottom: 20px;
+	padding-top: 0;
+}
+
+button.myNavbar
+{
+	width: 100%;
+	height: auto;
+}
+
+li.myNavItem
+{
+	width: 20%;
+	border: 5px solid #666647;
+	border-top: 0;
+	border-radius: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	text-align: center;
+	word-break: break-word;
+}
+
+.navbar-dark .navbar-nav .nav-link
+{
+	color: white;
+}
+
+nav.myNavbar a.myActive
+{
+	color: #ffffaa!important;
+}
+
+nav.myNavbar a:hover
+{
+	color: #63D603!important;
+}
+
+/*================================ Welcome site ================================*/
+
+.oneLineCenterText
+{
+	text-align: center;
+	margin-top: 25px;
+}
+
+div.buttonsContainerYouCanNowLogin
+{
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.registerButton,
+div.logInButton
+{
+	float:left;
+}
+div.logInButtonYouCanNowLogin
+{
+	float:none;
+	margin: auto;
+}
+
+.registerButton:hover
+{
+	color: #fcf75f;
+}
+
+.logInButton:hover
+{
+	color: #63D603;
+}
+
+/*================================ Registration and log in site ================================*/
+
+div.registrationLogInForm
+{
+	width: 620px;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input.registrationLogInForm,
+select.chooseLang
+{
+	float: left;
+	width: 300px;
+	background-color: #efefef;
+	color: #666666;
+	border: 2px solid #dddddd;
+	border-radius: 5px;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	padding: 10px;
+	box-sizing: border-box;
+	outline: none;
+	margin-top: 20px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+input.required,
+select.required
+{
+	border: 2px solid #ff5e12;
+}
+
+div.chooseLang
+{
+	text-align: center;
+	color: #ffffaa;
+}
+
+select.chooseLang
+{
+	width: 610px;
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+select.chooseLang:hover
+{
+	cursor: pointer;
+}
+
+input#login
+{
+	width: 610px;
+}
+
+input.emailRegistrationForm
+{
+	width: 610px;
+}
+
+input.emailLogInForm
+{
+	width: 300px;
+}
+
+div.checkboxAndForgotPassword
+{
+	padding-left: 5%;
+	padding-right: 5%;
+}
+div.checkbox
+{
+	color: #ffffaa;
+	padding-top: 10px;
+}
+div.checkbox > label
+{
+	pointer-events: auto;
+}
+div.checkbox > label:hover
+{
+	cursor: pointer;
+}
+div.checkbox:hover
+{
+	pointer-events: auto;
+	color: #63D603;
+	cursor: pointer;
+}
+input[type = checkbox]:hover
+{
+	pointer-events: auto;
+	cursor: pointer;
+}
+div.forgotPassword
+{	
+	padding-top: 10px;
+}
+div.forgotPassword > a
+{
+	color: #ffffaa;
+}
+div.forgotPassword > a:hover
+{
+	color: #63D603;
+}
+
+input[type=submit].registrationLogInForm
+{
+	float: none;
+	display: block;
+	background-color: #41b401;
+	color: white;
+	padding: 15px 10px;
+	border: none;
+	border-radius: 5px;
+	letter-spacing: 2px;
+	outline: none;
+	margin: 30px auto 0;
+}
+
+input[type=submit].registrationLogInForm:hover
+{
+	background-color: #63D603;
+	color: green;
+}
+
+div.allErrorMsgsDiv
+{
+	color: #a20d0d;
+	text-align: left;
+	margin: 10px 15px;
+}
+
+div.errorMsgs
+{
+	margin-bottom: 5px;
+}
+
+div.serverErrorMsgs
+{
+	color: #ffdb58;
+	font-size: 30px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+/*================================ Welcome new user site ================================*/
+div.welcomeNewUserButtonsContainer
+{
+	width: 243px;
+}
+
+/*================================ Main menu site ================================*/
+div.mainMenuContainer
+{
+	padding-top: 25px;
+}
+
+span.userName
+{
+	color: #63D603;
+}
+
+span.buttonText /* For all button's texts */
+{
+	font-size: 35px;
+}
+
+div.incomeButton,
+div.expenseButton,
+div.settingsButton,
+div.logOutButton
+{
+	float:left;
+	width: 233px;
+}
+
+div.viewBalanceButton
+{
+	float:left; /* There MUST be float: left because only then <a> won't be visible outside a button */
+	width: 476px;
+}
+
+div.helpButton
+{
+	height: auto;
+	width: 100%;
+	background-color: inherit;
+	color: #dedea05f;
+	border: none;
+	border-top: 5px solid #666647;
+	border-radius: 5px;
+	margin: 0;
+	padding: 0;
+	margin-top: 30px;
+}
+
+.incomeButton:hover
+{
+	color: #63D603;
+}
+
+.expenseButton:hover
+{
+	color: #ff713a;
+}
+
+.settingsButton:hover
+{
+	color: #fcf75f;
+}
+
+.logOutButton:hover
+{
+	color: #228de9;
+}
+
+.viewBalanceButton:hover
+{
+	color: #fcf75f;
+}
+
+.helpButton:hover
+{
+	color: #ffffaa;
+}
+/*-------------------- Modal --------------------*/
+div.myModalDialog
+{
+	min-width: 50%;
+}
+div.modalBody-header
+{
+	margin-bottom: 15px;
+}
+
+div.modalBody-paragraf
+{
+	margin-bottom: 10px;
+	text-align: justify;
+}
+
+span.modalBody-boldText
+{
+	color: #ffffaa;
+}
+
+span.modalBody-underline
+{
+	text-decoration: underline;
+}
+
+span.modalBody-addIncome
+{
+	color: #63D603;
+}
+
+span.modalBody-addExpense
+{
+	color: #ff5e12;
+}
+
+span.modalBody-viewBalance
+{
+	color: #fcf75f;
+}
+
+span.modalBody-settings
+{
+	color: #fcf75f;
+}
+
+span.modalBody-logOut
+{
+	color: #228de9;
+}
+
+div.modalBody-footer
+{
+	padding-top: 20px;
+}
+
+button.mainMenuModalClose
+{
+	width: 100%;
+	background-color: #56e24144;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+button.mainMenuModalClose:hover
+{
+	background-color: #56e24166;
+}
+
+/*================================ Transfer sites ================================*/
+div.transferFormContainer
+{
+	text-align: left;
+}
+
+fieldset
+{
+	padding: 15px;
+	margin-top: 10px;
+}
+
+legend
+{
+	float: none;
+	width: fit-content;
+	font-size: 35px;
+	padding: 0;
+	margin: 0;
+}
+
+div.category,
+div.categoryIncome
+{
+	padding: 0 5px;
+}
+
+div.categoryIncome
+{
+	margin-bottom: 10px;
+}
+
+fieldset.category
+{
+	width: 100%;
+	border: 2px solid #ffffaa;
+	border-radius: 10px;
+	
+}
+
+div.columns
+{
+	width: 31%;
+	min-width: 231px;
+	float: left;
+	margin: 0 10px;
+}
+
+input[type=radio]:hover,
+div.columns > div > label:hover
+{
+	cursor: pointer;
+}
+
+div.amountAndDate,
+div.amountAndDateIncome
+{
+	float: left;
+	/*width: 300px;*/
+	margin: 20px 0 10px;
+	padding: 0 5px;
+}
+
+div.amountAndDateIncome
+{
+	margin-top: 30px;
+	margin-bottom: 0;
+}
+
+div.textArea,
+div.textAreaIncome
+{
+	float: left;
+	/*width: 600px;*/
+	margin: 20px 0 10px;
+	padding: 0 5px;
+}
+
+div.textAreaIncome
+{
+	margin-top: 10px
+}
+
+input.transferForm,
+input.transferFormIncome,
+textArea.textArea,
+textArea.textAreaIncome
+{
+	display: block;
+	/*width: 300px;*/
+	background-color: #efefef;
+	color: #666666;
+	border: 2px solid #dddddd;
+	border-radius: 5px;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	padding: 10px;
+	box-sizing: border-box;
+	outline: none;
+	
+}
+
+textArea.textArea,
+textArea.textAreaIncome
+{
+	/*width: 600px;*/
+	height: 146px;
+	resize: none;
+}
+
+textArea.textAreaIncome
+{
+	height: 80px;
+}
+
+input.transferForm[type=number],
+input.transferFormIncome[type=number]
+{
+	margin-bottom: 20px;
+}
+
+input.transferFormIncome[type=number]
+{
+	margin-bottom: 10px;
+}
+
+button.addExpense,
+button.addIncome
+{
+	float: left;
+}
+
+button.addExpense:hover
+{
+	color: #ff713a; /* #ff8c4ac5 #ff5e12 */
+}
+
+button.addIncome:hover
+{
+	color: #63D603;
+}
+
+/* Back button stylized in general options */
+
+
+div.successfullyAddedTransfer
+{
+	color: #63D603;
+	text-align: center;
+	margin-top: 10px;
+}
+
+div.limitAlert
+{
+	padding-top: 10px;
+	text-align: center;
+	border-bottom: 5px solid #666647;
+	border-radius: 5px;
+}
+
+div.limitAlert-header
+{
+	padding-top: 20px;
+	width: 50%;
+	margin: auto;
+	border: none;
+	color: #ffffaafa;
+}
+
+div.limitAlert-exceeded
+{
+	border-color: #ff5e12;
+	color: #ff5e12;
+}
+div.limitAlert-notExceeded
+{
+	border-color: #63D603;
+	color: #63D603;
+}
+div.limitAlert-reached
+{
+	border-color: #fffa12ad;
+	color: #fffa12ad;
+}
+div.limitAlert-limitNotSet
+{
+	border-color: #00b3bf;
+    color: #00b3bf;
+}
+
+/*================================ View Balance site ================================*/
+div.myViewBalanceContainer
+{
+	max-width: 1500px;
+	width: 85%;
+	padding-top: 0;
+}
+
+div.viewBalanceContent
+{
+	margin-top: 10px;
+}
+
+div.balanceContentUp,
+div.balanceContentDown
+{
+	width: 85%;
+}
+div.balanceContentUp
+{
+	float: left;
+	width: calc(100% - 310px);
+	padding-right: 15px;
+}
+div.balanceContentDown
+{
+	margin: auto;
+}
+
+div.balanceControlPanelRight,
+div.balanceControlPanelLeft
+{
+	float: left;
+	width: 310px;
+}
+
+div.balanceControlPanelLeft
+{
+	display: none;
+}
+
+div.balanceControlPanelDate
+{
+	float: left;
+	/*width: 300px; - there can't be width, cause "col" in HTML will not work */
+	margin-top: 20px;
+	margin-left: 5px;
+	margin-right: 5px;
+	text-align: left;
+}
+
+input.balanceControlPanel
+{
+	width: 300px;
+	background-color: #efefef;
+	color: #666666;
+	border: 2px solid #dddddd;
+	border-radius: 5px;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	padding: 10px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+div.balanceControlPanelMonthYearButtons
+{
+	float:left;
+	margin-bottom: 15px;
+}
+
+button.balanceControlPanel,
+button.balanceControlPanelSubmit
+{
+	width: 213px;
+	background-color: #ffffaa;
+	color: #63D603;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	padding: 15px 15px;
+	margin-top: 10px;
+	margin-left: var(--balanceControlPanelButtons-margin-left-right);
+	margin-right: var(--balanceControlPanelButtons-margin-left-right);
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	letter-spacing: 2px;
+	outline: none;
+	display: block;
+	
+}
+
+button.showGridButton
+{
+	width: calc(100% - 2*var(--balanceControlPanelButtons-margin-left-right));
+	background-color: #2191ea;
+	margin-bottom: 15px!important;
+	margin-top: 0!important;
+}
+
+button.balanceControlPanel
+{
+	height: auto;
+	font-size: 25px;
+}
+
+button.balanceControlPanelSubmit
+{
+	float:left;
+	width: 77px;
+	height: 202px;
+	background-color: #41b401;
+	color: white;
+	margin-bottom: 15px;
+}
+
+button.balanceControlPanel:hover
+{
+	background-color: #fcf75f;
+	color: #63D603;
+}
+button.balanceControlPanelSubmit:hover
+{
+	background-color: #63D603;
+	color: green;
+}
+button.showGridButton:hover
+{
+	background-color: #1080d9;
+}
+
+/* Back button stylized in general options */
+div.backViewBalance
+{
+	width: calc(100% - 10px); /* margin = 5px */
+}
+
+div.balanceContentUp div.viewBalanceTablesPositive,
+div.balanceContentUp div.viewBalanceTablesNegative,
+div.viewBalanceTables
+{
+	margin-top: 10px;
+	text-align: center;
+}
+
+div.balanceContentUp div.viewBalanceTablesPositive
+{
+	float: left;
+}
+
+div.balanceContentUp div.viewBalanceTablesNegative
+{
+	float: right;
+}
+
+div.viewBalanceTableNamesPositive,
+div.viewBalanceTableNamesNegative
+{
+	font-weight: bold;
+	padding-bottom: 10px;
+}
+
+div.viewBalanceTableNamesPositive
+{
+	
+	color: #74e714;
+	
+}
+
+div.viewBalanceTableNamesNegative
+{
+	color: #ff5e12;
+}
+
+table.positiveBalanceContent,
+table.negativeBalanceContent,
+table.positiveBalanceContent th,
+table.negativeBalanceContent th
+{
+	padding: 10px;
+	text-align: center;
+}
+
+table.positiveBalanceContent,
+table.negativeBalanceContent
+{
+	display: block;
+	table-layout: fixed;
+	overflow: auto;
+	max-height: 800px;
+	border-top: 5px solid #666647;
+	border-radius: 10px
+}
+
+th.date
+{
+	white-space: nowrap;
+}
+
+th.amount
+{
+	white-space: nowrap;
+}
+
+th.category
+{
+	min-width: 240px;
+	max-width: 250px;
+	word-wrap: break-word;
+}
+
+th.paymentMethod
+{
+	min-width: 220px;
+	max-width: 220px;
+	word-wrap: break-word;
+}
+
+th.comment
+{
+	width: 100%;
+	word-wrap: break-word;
+}
+
+th.delete,
+th.edit
+{
+	width: 60px;
+	font-size: 80%;
+}
+div.viewBalanceDeleteRecord
+{
+	width: 100%;
+	border-bottom: 2px solid #dedea05c;
+}
+div.viewBalanceDeleteRecordPositive
+{
+	border-color: #82bd51;
+}
+i.positive-trash-empty
+{
+	color: #82bd51!important;
+}
+div.viewBalanceDeleteRecordNegative
+{
+	border-color: #e28f41;
+}
+div.viewBalanceDeleteRecordPositive:hover
+{
+	background-color: #82bd5144;
+}
+div.viewBalanceDeleteRecordNegative:hover
+{
+	background-color: #e28f4144;
+}
+
+div.viewBalanceEditRecord
+{
+	width: 100%;
+	border-bottom: 2px solid #41a2e2;
+}
+div.viewBalanceEditRecord:hover
+{
+	background-color: #41a2e244;
+}
+
+thead.positiveBalanceContent,
+thead.negativeBalanceContent
+{
+	color: #ffffaa;
+}
+
+tr.positiveBalanceContentOdd
+{
+	color: #52c502;
+}
+
+tr.positiveBalanceContentEven
+{
+	color: #74e714;
+}
+
+tr.negativeBalanceContentOdd
+{
+	color: #ff5e12;
+}
+
+tr.negativeBalanceContentEven
+{
+	color: #ff713a;
+}
+
+div.balance
+{
+	text-align: center;
+}
+
+span.balancePositive
+{
+	color: #63D603;
+}
+
+span.balanceNegative
+{
+	color: #ff5e12;
+}
+
+span.balanceNeutral
+{
+	color: #ffffaa;
+}
+
+div.balanceContentDownInfo
+{
+	display: none;
+	margin: 10px 0;
+	text-align: justify;
+}
+
+div.piechart
+{
+	width: 50%;
+	height: 500px;
+}
+
+div#piechart-incomes
+{
+	width: 80%;
+	margin: auto;
+}
+
+div.buttonMultiDelete
+{
+	height: auto;
+	width: 100%;
+	padding: 5px;
+	border-top: 5px solid #666647;
+	border-radius: 5px;
+	color: #ffffaa;
+}
+
+div.buttonMultiDelete:hover
+{
+	background-color: #ffffaa22;
+}
+
+div.myModalDialogMultiDelete
+{
+	min-width: 90%;
+}
+
+input[type=checkbox].viewBalanceModalCheckbox
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+}
+
+/* =========================== Settings site =========================== */
+
+div.settingsContainer
+{
+	width: 100%;
+}
+
+div.oneSettingBlock
+{
+	margin-bottom: 15px;
+}
+
+div.settingsHeaders
+{
+	width: 100%;
+	height: 70px;
+	font-size: 35px;
+	margin: 0;
+	padding-top: 10px;
+}
+
+div.settingsFields
+{
+	width: 80%;
+	margin: auto;
+	display: none;
+}
+
+div.noPaddingDiv
+{
+	padding: 0;
+}
+
+div.settingsFieldsText
+{
+	width: 100%;
+	padding-top: 12px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.settingsFieldsTextEditableRecords
+{
+	width: calc(100% - 70px);
+}
+
+div.settingsFieldsTextEditableAndDeletableRecords
+{
+	width: calc(100% - 130px);
+}
+
+span.limitText
+{
+	padding-left: 10px;
+	font-size: 75%;
+	color: #ffffffa1;
+}
+
+div.settingsFields > div
+{
+	width: 100%;
+	height: 65px;	
+	font-size: 30px;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 0px;
+	margin: 0;
+	border-top: 0;
+}
+
+div.textContainerSettingsSite
+{
+	margin-bottom: 15px;
+}
+
+div.settingsFieldsButton,
+button.settingsFieldsButton
+{
+	width: 60px;
+	height: 100%!important;
+	padding: 0;
+	padding-top: 17px;
+	margin: 0;
+	border: none;
+	border-left: 2px solid #dedea05c;
+	border-radius: 0;
+	font-size: 20px;
+}
+
+div.notDeletable
+{
+	border-right: 5px solid #dedea05c !important;
+}
+
+/* ---- Particular setting changes ---- */
+div.settingsHeadersIncomesCategory
+{
+	background-color: #56e24166;
+}
+div.settingIncomesCategory
+{
+	background-color: #56e24133;
+	border-color: #56e24133;
+}
+
+div.settingsHeadersExpensesCategory,
+div.settingsHeadersPaymentMethods
+{
+	background-color: #e28f4166;
+}
+div.settingExpensesCategory,
+div.settingPaymentMethods
+{
+	background-color: #e28f4133;
+	border-color: #e28f4133;
+}
+
+div.settingsHeadersUserData
+{
+	background-color: #41a2e266;
+}
+div.settingUserData
+{
+	background-color: #41a2e233;
+	border-color: #41a2e233;
+}
+div.settingChangeAllAndAddNew
+{
+	background-color: #00b3bf33;
+	border-color: #00b3bf33;
+	padding: 0!important;
+}
+div.settingChangeAllAndAddNew > div
+{
+	text-align: center;
+}
+span.userSettingsData
+{
+	color: #00b3bf;
+}
+
+
+div.settingsHeadersIncomesCategory:hover
+{
+	background-color: #56e24188;
+}
+div.settingIncomesCategory:hover
+{
+	background-color: #56e24133;
+	cursor: default;
+}
+
+div.settingsHeadersExpensesCategory:hover,
+div.settingsHeadersPaymentMethods:hover
+{
+	background-color: #e28f4188;
+}
+div.settingExpensesCategory:hover,
+div.settingPaymentMethods:hover
+{
+	background-color: #e28f4133;
+	cursor: default;
+}
+
+div.settingsHeadersUserData:hover
+{
+	background-color: #41a2e288;
+}
+div.settingUserData:hover
+{
+	background-color: #41a2e233;
+	cursor: default;
+}
+div.settingChangeAllAndAddNew:hover
+{
+	background-color: #00b3bf55;
+	cursor: pointer;
+}
+
+div.settingsFieldsButtonDelete
+{
+	background-color: #e28f4100;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	
+}
+div.settingsFieldsButtonEdit
+{
+	background-color: #41a2e200;
+}
+
+div.settingsFieldsButtonDelete:hover
+{
+	background-color: #e28f4144;
+}
+div.settingsFieldsButtonEdit:hover
+{
+	background-color: #41a2e244;
+}
+
+i.icon-trash-empty
+{
+	color: #e28f41;
+}
+i.icon-edit
+{
+	color: #41a2e2;
+}
+
+/* ---------- Modal window ---------- */
+div.modalInputs
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input.myModal
+{
+	margin-bottom: 10px;
+	width: 100% !important;
+}
+
+button.saveChanges
+{
+	background-color: #56e24144;
+	border-bottom-left-radius: 5px;
+}
+button.close
+{
+	border-left: 2px solid #dedea05c;
+	background-color: #e28f4144;
+	border-bottom-right-radius: 5px;
+}
+
+button.saveChanges:hover
+{
+	background-color: #56e24166;
+}
+button.close:hover
+{
+	background-color: #e28f4166;
+}
+
+/* =========================== MEDIA =========================== */
+@media (max-width: 1613px)
+{
+	/* View balance site */
+	
+	div.balanceContentUp,
+	div.balanceContentDown
+	{
+		width: 100%;
+		padding-right: 0;
+	}
+	
+	div.balanceControlPanelRight
+	{
+		display: none;
+	}
+	
+	div.balanceControlPanelLeft
+	{
+		display: block;
+		width: 60%;
+		float: none;
+		margin: auto;
+	}
+	
+	div.balanceContent
+	{
+		padding: 0;
+	}
+	
+	div.balanceControlPanelDates
+	{
+		float: left;
+		margin-top: 20px;
+	}
+	
+	div.balanceControlPanelDate
+	{
+		min-width: 218px;
+		margin: 0;
+		padding: 0 5px;
+	}
+	
+	input.balanceControlPanel[type = date],
+	input.balanceControlPanel[type = text]
+	{
+		width: 100%;
+	}
+	
+	div.balanceControlPanelMonthYearButtons
+	{
+		width: 100%;
+		padding-left: 5px;
+	}
+	
+	button.balanceControlPanel
+	{
+		width: 100%;
+		margin: 10px 0 0;
+	}
+	
+	div.balanceControlPanelSubmit
+	{
+		padding-right: 5px;
+	}
+	
+	button.balanceControlPanelSubmit
+	{
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	div.backViewBalance
+	{
+		float: left;
+	}
+	
+	div.showGridButton
+	{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+
+@media(max-width: 1238px)
+{
+	/* Expense site */
+	div.columns
+	{
+		width: 47%;
+		min-width: initial;
+	}
+	
+	/* View Balance Site */
+	div.myViewBalanceContainer
+	{
+		width: 100%;
+	}
+	
+	div.balanceControlPanelLeft
+	{
+		width: 70%;
+	}
+}
+
+@media (max-width: 991.98px)
+{
+	body.userPanel
+	{
+		background-image: url("../img/jukenseiNoNatsu - trunc.jpg");
+	}
+	
+	div.logo
+	{
+		font-size: 55px;
+	}
+	
+	div.footer
+	{
+		height: auto;
+		font-size: 23px;
+	
+	}
+	
+	span.japaneseText
+	{
+		font-size: 16px;
+	}
+	
+	div.button,
+	div.registerButton,
+	div.logInButton,
+	div.incomeButton,
+	div.expenseButton,
+	div.settingsButton,
+	div.logOutButton,
+	div.viewBalanceButton,
+	button.addExpense,
+	button.addIncome,
+	div.back,
+	div.backViewBalance
+	{
+		height: auto;
+		font-size: 37px;
+	}
+	
+	/* Registration and Log in site */
+	div.registrationLogInForm
+	{
+		width: 100%;
+	}
+	
+	input.registrationLogInForm,
+	select.chooseLang,
+	input.registrationLogInForm[type = email],
+	input#login
+	{
+		float: none;
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	/* View Balance site */
+	div.balanceControlPanelLeft
+	{
+		width: 80%;
+	}
+	
+	div.balanceContentUp,
+	div.balanceContentDown div.viewBalanceTables
+	{
+		font-size: 25px;
+	}
+	
+	div.balanceContentUp th.date,
+	div.balanceContentDown th.date
+	{
+		min-width: 128px;
+	}
+
+	div.balanceContentUp th.amount,
+	div.balanceContentDown th.amount
+	{
+		min-width: 122px; /* because of header */
+	}
+	
+	div.balanceContentUp th.category,
+	div.balanceContentDown th.category
+	{
+		min-width: 203px;
+	}
+	div.piechart
+	{
+		width: 80%;
+		margin: auto;
+		height: 400px;
+		float: none!important;
+	}
+	
+	input[type=checkbox].viewBalanceModalCheckbox
+	{
+	  /* Double-sized Checkboxes */
+	  -ms-transform: scale(1.5); /* IE */
+	  -moz-transform: scale(1.5); /* FF */
+	  -webkit-transform: scale(1.5); /* Safari and Chrome */
+	  -o-transform: scale(1.5); /* Opera */
+	  transform: scale(1.5);
+	}
+	
+	/* User sites */
+	div.myUserSitesContainer,
+	div.myViewBalanceContainer
+	{
+		padding-top: 20px;	
+	}
+	
+	div.myViewBalanceContainer
+	{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	li.myNavItem
+	{
+		width: 100%;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+	}
+	
+	/* Settings site */
+	div.settingsHeaders
+	{
+		font-size: 33px;
+	}
+	div.settingsFields > div
+	{
+		font-size: 28px;
+	}
+	div.settingsFieldsButton
+	{
+		font-size: 20px;
+	}
+
+}
+
+@media (max-width: 767.98px)
+{
+	body
+	{
+		font-size: 25px;
+	}
+	
+	div.logo
+	{
+		font-size: 50px;
+	}
+	
+	h1.articleHeaders
+	{
+		font-size: 42px;
+	}
+	
+	div.myContainer,
+	div.myViewBalanceContainer,
+	div.myUserSitesContainer
+	{
+		width: 100%;
+	}
+	
+	div.button,
+	div.registerButton,
+	div.logInButton,
+	div.incomeButton,
+	div.expenseButton,
+	div.settingsButton,
+	div.logOutButton,
+	div.viewBalanceButton,
+	button.addExpense,
+	button.addIncome,
+	div.back,
+	div.backViewBalance
+	{
+		height: auto;
+		font-size: 30px;
+	}
+	
+	input,
+	select,
+	button.balanceControlPanel,
+	button.balanceControlPanelSubmit
+	{
+		font-size: 25px!important;
+	}
+	
+	button.balanceControlPanelSubmit
+	{
+		height: 203px;
+	}
+	
+	div.footer
+	{
+		height: auto;
+		font-size: 20px;
+	
+	}
+	
+	span.japaneseText
+	{
+		font-size: 16px;
+	}
+	
+	/* Add Income site */
+	div.textAreaIncome
+	{
+		margin-top: 20px;
+	}
+	
+	textArea.textAreaIncome
+	{
+		height: 146px;
+	}
+	
+	div.amountAndDateIncome
+	{
+		margin-top: 10px;
+	}
+	
+	/* View Balance site */
+	
+	div.balanceContentUp div.viewBalanceTablesPositive,
+	div.balanceContentUp div.viewBalanceTablesNegative,
+	div.balanceContentDown div.viewBalanceTables
+	{
+		font-size: 20px;
+	}
+	
+	div.balanceContentUp th.date,
+	div.balanceContentDown th.date
+	{
+		min-width: 106px;
+	}
+
+	div.balanceContentUp th.amount,
+	div.balanceContentDown th.amount
+	{
+		min-width: 102px; /* because of header */
+	}
+
+	div.balanceContentDown th.category
+	{
+		min-width: 169px;
+	}
+	
+	div.balanceContentUp th.category
+	{
+		min-width: 151px;
+	}
+	
+	input[type=checkbox].viewBalanceModalCheckbox
+	{
+	  /* Double-sized Checkboxes */
+	  -ms-transform: scale(1); /* IE */
+	  -moz-transform: scale(1); /* FF */
+	  -webkit-transform: scale(1); /* Safari and Chrome */
+	  -o-transform: scale(1); /* Opera */
+	  transform: scale(1);
+	}
+	
+	/* Settings site */
+	div.settingsHeaders
+	{
+		font-size: 30px;
+	}
+	div.settingsFields > div
+	{
+		font-size: 25px;
+		height: 55px;
+	}
+	div.settingsFieldsButton
+	{
+		width: 55px;
+		padding-top: 15px;
+		font-size: 17px;
+	}
+}
+
+@media (max-width: 680px) and (min-width: 575.98px)
+{
+	/* View balance site */
+	div.okButtonCol
+	{
+		padding-left: 0;
+	}
+	div#piechart-incomes,
+	div.piechart
+	{
+		width: 100%;
+	}
+}
+
+@media (max-width: 575.98px)
+{
+	body
+	{
+		font-size: 25px;
+	}
+	
+	div.logo
+	{
+		font-size: 50px;
+	}
+	
+	h1.articleHeaders
+	{
+		font-size: 42px;
+	}
+	
+	div.fullLogo
+	{
+		display: none;
+	}
+	
+	div.shortLogo
+	{
+		display: inline-block;
+	}
+	
+	div.myContainer,
+	div.myViewBalanceContainer,
+	div.myUserSitesContainer
+	{
+		padding: 20px 15px;
+	}
+	
+	div.button,
+	div.registerButton,
+	div.logInButton,
+	div.incomeButton,
+	div.expenseButton,
+	div.settingsButton,
+	div.logOutButton,
+	div.viewBalanceButton,
+	button.addExpense,
+	button.addIncome,
+	div.back,
+	div.backViewBalance
+	{
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		height: auto;
+		font-size: 25px;
+	}
+	
+	div.buttonsContainer,
+	div.welcomeNewUserButtonsContainer
+	{
+		width: 100%;
+	}
+	
+	div.icons,
+	div.iconText
+	{
+		display: inline-block;
+	}
+	
+	div.footer
+	{
+		font-size: 18px;
+	}
+	
+	span.japaneseText
+	{
+		font-size: 14px;
+	}
+	
+	/* Login site */
+	div.checkboxAndForgotPassword
+	{
+		text-align: center;
+	}
+	
+	div.checkbox,
+	div.forgotPassword
+	{
+		float: none!important;
+	}
+	
+	/* Add expense site */
+	div.columns
+	{
+		width: auto;
+		min-width: initial;
+		clear: both;
+	}
+	
+	/* View balance site */
+	div.balanceControlPanelLeft
+	{
+		width: 100%;
+	}
+	
+	div.balanceControlPanelDate
+	{
+		margin-top: 10px;
+	}
+	
+	div.balanceControlPanelMonthYearButtons
+	{
+		padding-right: 5px;
+		margin-bottom: 0;
+	}
+	
+	div.balanceControlPanelSubmit
+	{
+		padding-left: 5px;
+	}
+	
+	button.balanceControlPanelSubmit
+	{
+		height: auto;
+	}
+	
+	div.balanceContentUp div.viewBalanceTablesPositive,
+	div.balanceContentUp div.viewBalanceTablesNegative
+	{
+		float: none;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	table.positiveBalanceContent,
+	table.negativeBalanceContent
+	{
+		padding: 0;
+		
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	table.positiveBalanceContent th.amount,
+	table.negativeBalanceContent th.amount
+	{
+		padding-left: 0; 
+	}
+	
+	table.positiveBalanceContent th.category,
+	table.negativeBalanceContent th.category
+	{
+		padding-right: 0; 
+	}
+	
+	div.balanceContentDown th.comment
+	{
+		display: none;
+	}
+	
+	div.balanceContentDown div.viewBalanceTables
+	{
+		display: none;
+	}
+	
+	div.balanceContentDownInfo
+	{
+		display: block;
+	}
+	div.piechart
+	{
+		width: 100%;
+		height: 250px;
+	}
+	div#piechart-incomes
+	{
+		width: 100%;
+	}
+	
+	/* Settings site */
+	div.settingsHeaders
+	{
+		font-size: 26px;
+	}
+	div.settingsFields
+	{
+		width: 90%;
+	}
+	div.settingsFields > div
+	{
+		font-size: 20px;
+		height: 50px;
+	}
+	div.settingsFieldsButton
+	{
+		width: 45px;
+		padding-top: 14px;
+		font-size: 15px;
+	}
+	div.settingsFieldsTextEditableRecords
+	{
+		width: calc(100% - 50px);
+	}
+
+	div.settingsFieldsTextEditableAndDeletableRecords
+	{
+		width: calc(100% - 100px);
+	}
+}
+
+@media (max-width: 350px)
+{
+	/* View balance site */
+	div.balanceContentUp,
+	div.balanceContentDown
+	{
+		font-size: 20px;
+	}
+	
+	div.balanceContentUp th.date
+	{
+		min-width: 106px;
+	}
+
+	div.balanceContentUp th.amount
+	{
+		min-width: 102px; /* because of header */
+	}
+
+	div.balanceContentUp th.category
+	{
+		min-width: 169px;
+	}
+	
+	div.piechart
+	{
+		height: 200px;
+	}
+	
+	/* Settings site */
+	div.settingsHeaders
+	{
+		font-size: 24px;
+	}
+	div.settingsFields > div
+	{
+		font-size: 17px;
+		height: 45px;
+	}
+	div.settingsFieldsButton
+	{
+		width: 35px;
+		padding-top: 14px;
+		font-size: 13px;
+	}
+	div.settingsFieldsTextEditableRecords
+	{
+		width: calc(100% - 40px);
+	}
+
+	div.settingsFieldsTextEditableAndDeletableRecords
+	{
+		width: calc(100% - 80px);
+	}
+}
+
+

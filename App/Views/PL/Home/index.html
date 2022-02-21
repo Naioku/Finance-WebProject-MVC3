@@ -1,0 +1,53 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+	
+	<header>
+	
+		<div class = "textContainer">
+			<div class = "narrator"> Docierasz do małego drewnianego domku i spoglądasz na tablicę ogłoszeń...</div>
+			<h1 class = "articleHeaders">Witaj!</h1>
+			Prawdopodobnie zastanawiasz się, kim jestem. Ale ważniejszym pytaniem jest: "Kim mogę się stać?". Mogę być częścią Twojej pamięci. Mogę pomóc Ci złapać wszystkie TWOJE monety, które uciekają bardzo szybko z Twojej kieszeni. 1 minuta planowania równa się 10 minutom działania, więc, jeżeli wezmę na siebie listowanie wszystkich Twoich przychodów i wydatków, Ty będziesz w stanie zająć się tylko planowaniem, a to oznacza, że zaoszczędzisz więcej czasu ^^. Ale na początek powinniśmy się poznać. Zatem, jeżeli nie wiesz jeszcze, kim jestem, wejdź przez lewe drzwi. W przeciwnym wypadku zapukaj w prawe.<br />
+			<div class = "oneLineCenterText">To jak...?</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+	
+		<div class = "col-12">
+	
+			<div class = "buttonsContainer">
+				<a href = "/signup">
+					<div class = "registerButton">
+						<div class = "icons">
+							<i class = "icon-handshake-o"></i><br />
+						</div>
+						<div class = "iconText">
+							Lewo
+						</div>
+					</div>
+				</a>
+				
+				<a href = "/login">
+					<div class = "logInButton">
+						<div class = "icons">
+							<i class = "icon-login"></i>
+						</div>
+						<div class = "iconText">
+							Prawo
+						</div>
+					</div>
+				</a>
+				
+				<div style = "clear:both;"></div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+				
+{% endblock %}

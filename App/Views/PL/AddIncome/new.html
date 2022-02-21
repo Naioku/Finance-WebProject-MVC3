@@ -1,0 +1,229 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Add income{% endblock %}
+
+{% block footer %}
+
+	<script>
+	
+		$(document).ready(function() {
+		
+			$("#amount").on("keyup change", function() {
+				amount = $("#amount").val();
+				
+				if (amount != null) {
+				
+					$.post("add-income/check-income", {
+							amount: amount
+						},
+						function(data, status) {
+							$("#errorsContainer").html(data);
+						}
+					);
+				}
+			});
+		
+		});
+	
+	</script>
+	
+	<script>
+		function getTodayDayText() {
+			var today = new Date();
+			var presentMonth = today.getMonth() + 1; // January is 0!
+			var presentDay = today.getDate();
+			
+			if (presentMonth < 10) {
+				var todayText = today.getFullYear() + "-0" + presentMonth;
+			} else {
+				var todayText = today.getFullYear() + "-" + presentMonth;
+			}
+			
+			if (presentDay < 10) {
+				todayText += "-0" + presentDay;
+			} else {
+				todayText += "-" + presentDay;
+			}
+			
+			return todayText;
+		}
+		
+		$(document).ready(function(){
+			$("#date").focusin(function() {
+				if ($(this).val() == "") $(this).val(getTodayDayText());
+				$(this).attr("type", "date");
+			});
+			$("#date").focusout(function() {
+				$(this).attr("type", "text");
+			});
+		});
+			
+	</script>
+
+{% endblock %}
+
+{% block body %}
+
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">
+				Dodawanie przychodu...
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					Kluski małe dwa<br />
+					Chciały coś porobić
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					Przychody! Chciałoby się powiedzieć: "Hopla!", co nie? xd Daj mi dane... Ja ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					Przychody! Chciałoby się zaśpiewać: "Watermelon sugar high!" :D Daj mi dane... Ja ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					Okej, Cloud! Daj mi dane... Ja ogarnę resztę..
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					Przychody? Świetnie, Tola! Daj mi dane... Ja z przyjemnością ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					Przychody, przychody! Dobrze widzieć przychody, co nie Verka? xd Daj mi dane... Ja ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					Przychody! Przychody są nieco "nadziejne", nie Nadzieja? Hah.. :D
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					Życzę Ci aby Twoje przychody były tak potrojone jak podwojone jest Twoje nazwisko, Jakubie! ;p
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Adrian powiedział mi, że przychody = więcej kurczaka, dlatego podejrzewam, że byłby szczęśliwy widząc Cię w tym pokoju.
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					Pan dał... <span class = "narrator">(patrz strona wydatków)</span>
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					Dobrze widzieć trochę przychodów, nie? Tyle rzeczy można zrobić...
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					Sasaaaageyo, sasaaaageyo! xd Daj mi dane, a ja wypełnię wszystko.
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					Daj mi dane, Basia, a ja wypełnię resztę. :)
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					Więcej pieniędzy = więcej herbatki! :)
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					Ile bryłek rudy dzisiaj wpadło? ;p
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					O! Złoto!
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					Kajiit ma towar, jeśli Ty masz pieniądz...
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					Słyszałeś jakieś nowe wiadomości z innych prowincji?
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					Jeśli łowisz monety tak dobrze jak ludzi dla Boga, to nie mam, o co się tu martwić.
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					Przychody na studich się przydają, nie? xd
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					Co tam dzisiaj wpadło, Kasiek? Ty wiesz, że Adrian ma Cię cały czas zapisaną jako "Nawrotka"? Już czasami się zastanawia, czy to nie jest poprawnie. xD
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					Jakieś przychody do wpisania, Filipie?
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					Kawiarnia, ciastkarnia, restauracja? Co dzisiaj, panie szef master?
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					Dodać jakieś przychody, Asia?
+				{% else %}
+					Okej! To daj mi dane... Ja ogarnę resztę.
+				{% endif %}
+			</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+
+		<div class = "col-12">
+	
+			<div class = "transferFormContainer">
+				
+				<form action = "/add-income/add-new-income" method = "post">
+					
+					<div class = "col-12 category">
+					
+						<fieldset class = "category">
+						
+							<legend> Kategorie </legend>
+							
+							{% if user.incomeCategoriesArr %}
+								{% for row in user.incomeCategoriesArr %}
+									<div class = "columns">
+										<div><label><input type = "radio" value = "{{ row.id }}" name = "category" checked>
+											{{ row.name }}
+										</label></div>
+									</div>
+								{% endfor %}
+							{% endif %}
+							
+							<div style = "clear:both;"></div>
+							
+						</fieldset>
+						
+					</div>
+					
+					<div class = "col-12">
+						<div id = "errorsContainer">
+						</div>
+					</div>
+					
+					<div class = "col-12 col-md-5 col-lg-4" style = "float:left;">
+					
+						<div class = "col-12 amountAndDate">
+							<input
+								class = "form-control transferForm"
+								id = "amount"
+								type = "number"
+								step = 0.01
+								placeholder = "kwota"
+								name = "amount"
+								required
+							>					
+							<input
+								class = "form-control transferForm"
+								id = "date"
+								type = "text"
+								name = "date"
+								placeholder = "data"
+								onfocus = "(this.type='date')"
+								onblur = "(this.type='text')"
+								required
+							>
+						</div>
+						<div style = "clear:both;"></div>
+						
+						
+					</div>
+				
+					<div class = "col-12 col-md-7 col-lg-8" style = "float:left;">
+																	
+						<div class = "col-12 textArea">
+							<textArea class = "form-control textArea" placeholder = "komentarz (opcjonalne)" name = "comment" ></textArea>
+						</div>
+						<div style = "clear:both;"></div>
+					
+					</div>
+					<div style = "clear:both;"></div>												
+				
+					<div class = "col-12 buttonsContainer">
+					
+						<button class = "addIncome">							
+							<i class = "icon-dollar"></i><br />
+							<span class = "text">Dodaj przychód</span>
+						</button>
+						
+						<a href = "/main-menu">
+							<div class = "back">
+								<i class = "icon-undo"></i><br />
+								<span class = "text">Wróć</span>
+							</div>
+						</a>
+						<div style = "clear:both;"></div>
+
+					</div>
+					
+				</form>
+			
+			</div>
+			
+		</div>
+		
+	</div>
+
+{% endblock %}

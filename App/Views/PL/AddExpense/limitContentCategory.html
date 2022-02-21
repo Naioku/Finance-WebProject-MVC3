@@ -1,0 +1,42 @@
+<div class = "limitAlert limitAlert-header">Kategoria</div>
+
+<div class = "limitAlert 
+	{% if user.isCategoryLimitSetExpense == false %}
+		limitAlert-limitNotSet
+	{% elseif user.howMuchYouExceededExpense > 0 %}
+		limitAlert-exceeded
+	{% elseif user.howMuchYouNeedToExceedExpense > 0 %}
+		limitAlert-notExceeded
+	{% elseif user.howMuchYouNeedToExceedExpense == 0 and user.howMuchYouExceededExpense == 0 %}
+		limitAlert-reached
+	{% endif %}"
+>
+	
+	{% if user.isCategoryLimitSetExpense == false %}
+		<div>
+			Limit dla tej kategorii nie jest jeszcze ustawiony.
+		</div>
+	{% elseif user.howMuchYouExceededExpense > 0 %}
+		<div>
+			Uważaj! Przekraczasz swój limit w tym miesiącu o {{ user.howMuchYouExceededExpense }} zł.
+		</div>
+	{% elseif user.howMuchYouNeedToExceedExpense > 0 %}
+		<div>
+			Ok. Pozostaje Ci {{ user.howMuchYouNeedToExceedExpense }} zł do osiągnięcia limitu w tym miesiącu.
+		</div>
+	{% elseif user.howMuchYouNeedToExceedExpense == 0 and user.howMuchYouExceededExpense == 0 %}
+		<div>
+			Uważaj! Właśnie osiągasz swój limit w tym miesiącu!
+		</div>
+	{% endif %}
+	
+	{% if user.isCategoryLimitSetExpense != false %}
+		<div>
+			Wydano: {{ user.expenseAmountSum }} zł.
+		</div>
+		<div>
+			Twój limit: {{ user.currentCategoryLimitExpense }} zł.
+		</div>
+	{% endif %}
+
+</div>

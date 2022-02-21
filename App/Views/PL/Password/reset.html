@@ -1,0 +1,106 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Reset password{% endblock %}
+
+{% block footer %} <!-- At least it will be placed on the bottom of base template, where the footer block is. -->
+	<script src = "/js/app.js"></script>
+	<script>
+
+		$(document).ready(function() {
+
+			/**
+			 * Validate the form
+			 */
+			$('#formSignup').validate({
+				rules: {
+					password: {
+						required: true,
+						minlength: 6,
+						validPassword: true
+					},
+					password_confirmation: {
+						equalTo: '#inputPassword'
+					}
+				},
+				messages: {
+					password: {
+						required: window.messagesPL.get('password required'),
+						minlength: window.messagesPL.get('password minlength'),
+						validPassword: window.messagesPL.get('password invalid')
+					},
+					password_confirmation: {
+						required: window.messagesPL.get('password confirmation required'),
+						equalTo: window.messagesPL.get('passwords not match each other')
+					}
+				},
+				errorPlacement: function(error, element) {
+					if (element.attr("name") == "password" ||
+						element.attr("name") == "password_confirmation") {
+							   
+						$("#quickErrorMsgsPassword").append("<div class = 'errorMsgs'>");
+						error.appendTo($("#quickErrorMsgsPassword"));
+						$("#quickErrorMsgsPassword").append("</div>");
+						
+					}
+				}
+			});
+		});
+	
+	</script>
+
+{% endblock %}
+
+{% block body %}
+	
+	<header>
+	
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">Resetowanie hasła</h1>
+			<div class = "oneLineCenterText">Tutaj, możesz zresetować swoje hasło</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+	
+		<div class = "col-12">
+	
+			<div class = "registrationLogInForm">
+				
+				<form method="post" action = "/password/reset-password" id="formSignup">
+					
+					<input type = "hidden" name = "token" value = "{{ token }}" />
+					
+					<input class = "form-control registrationLogInForm" id = "inputPassword" name = "password" type = "password" placeholder = "hasło" required>
+					
+					<input class = "form-control registrationLogInForm" name = "password_confirmation" type = "password" placeholder = "potwierdź hasło" required>
+					<div style = "clear:both;"></div>
+					
+					<div class = "allErrorMsgsDiv" id = "quickErrorMsgsPassword">
+						<div class = "errorMsgs">
+						</div>
+					</div>
+					
+					{% if user.errors is not empty %}
+						<div class = "allErrorMsgsDiv">
+							<div class = "errorMsgs">Sprawdź to:</div>
+							<ul>
+								{% for error in user.errors %}
+									<li><div class = "errorMsgs">{{ error }}</div></li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+					
+					<input class = "registrationLogInForm" type = "submit" value = "Wyślij!">
+					<div style = "clear:both;"></div>
+				
+				</form>
+				
+			</div>
+		
+		</div>
+		
+	</div>
+
+{% endblock %}

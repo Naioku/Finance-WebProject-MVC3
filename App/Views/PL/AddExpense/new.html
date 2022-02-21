@@ -1,0 +1,386 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Add expense{% endblock %}
+
+{% block footer %}
+	<script src = "/js/viewBalanceJavaScript.js"></script>
+	<script>
+		
+		$(document).ready(function() {
+			
+			var categoryId = null;
+			$("input.categoryRadioBtn").each(function() {
+				if ($(this).attr("checked")) categoryId = $(this).val();
+			});
+			
+			var paymentMethodId = null;
+			$("input.paymentMethodRadioBtn").each(function() {
+				if ($(this).attr("checked")) paymentMethodId = $(this).val();
+			});
+			
+			var date = null;
+			var firstDay = null;
+			var lastDay = null;
+			$("#date").on("keyup change", function() {
+				date = new Date($("#date").val());
+				
+				firstDay = getFirstDayTextOfProvidedDate(date);
+				lastDay = getLastDayTextOfProvidedDate(date);
+				
+				if (amount != null &&
+					firstDay != null &&
+					lastDay != null) {
+					
+					if (categoryId != null) {
+					
+						$.post("add-expense/check-category-limit", {
+							amount: amount,
+							categoryId: categoryId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitCategoryContainer").html(data);
+						});
+					}
+					if (paymentMethodId != null) {
+					
+						$.post("add-expense/check-payment-method-limit", {
+							amount: amount,
+							paymentMethodId: paymentMethodId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitPaymentMethodContainer").html(data);
+						});
+					}
+				}
+			});
+			$("#amount").on("keyup change", function() {
+				amount = $("#amount").val();
+				
+				if (amount != null &&
+					firstDay != null &&
+					lastDay != null) {
+				
+					if (categoryId != null) {
+					
+						$.post("add-expense/check-category-limit", {
+							amount: amount,
+							categoryId: categoryId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitCategoryContainer").html(data);
+						});
+					}
+					if (paymentMethodId != null) {
+					
+						$.post("add-expense/check-payment-method-limit", {
+							amount: amount,
+							paymentMethodId: paymentMethodId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitPaymentMethodContainer").html(data);
+						});
+					}
+				}
+				
+			});
+			
+			$("input.categoryRadioBtn").click(function() {
+				categoryId = $(this).val();
+				
+				if (amount != null &&
+					firstDay != null &&
+					lastDay != null) {
+				
+					if (categoryId != null) {
+					
+						$.post("add-expense/check-category-limit", {
+							amount: amount,
+							categoryId: categoryId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitCategoryContainer").html(data);
+						});
+					}
+				}
+			});
+			
+			$("input.paymentMethodRadioBtn").click(function() {
+				paymentMethodId = $(this).val();
+				
+				if (amount != null &&
+					firstDay != null &&
+					lastDay != null) {
+					
+					if (paymentMethodId != null) {
+					
+						$.post("add-expense/check-payment-method-limit", {
+							amount: amount,
+							paymentMethodId: paymentMethodId,
+							dateFrom: firstDay,
+							dateTo: lastDay
+						},
+						function(data, status) {
+							$("#limitPaymentMethodContainer").html(data);
+						});
+					}
+				}
+			});
+		});
+	</script>
+	
+	<script>
+		function getTodayDayText() {
+			var today = new Date();
+			var presentMonth = today.getMonth() + 1; // January is 0!
+			var presentDay = today.getDate();
+			
+			if (presentMonth < 10) {
+				var todayText = today.getFullYear() + "-0" + presentMonth;
+			} else {
+				var todayText = today.getFullYear() + "-" + presentMonth;
+			}
+			
+			if (presentDay < 10) {
+				todayText += "-0" + presentDay;
+			} else {
+				todayText += "-" + presentDay;
+			}
+			
+			return todayText;
+		}
+		
+		$(document).ready(function(){
+			$("#date").focusin(function() {
+				if ($(this).val() == "") $(this).val(getTodayDayText());
+				$(this).attr("type", "date");
+			});
+			$("#date").focusout(function() {
+				$(this).attr("type", "text");
+			});
+		});
+			
+	</script>
+
+{% endblock %}
+
+{% block body %}
+
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">
+				Dodawanie wydatku...
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					Nie chciało im się<br />
+					Poszły się położyć
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					Okej, przyszła księgowo! Daj mi dane... Ja ogarnę resztę, tylko nie patrz mi na ręce! Stresuje się.. xd
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					Okej, Cordi! Jakie dzisiaj mamy wydatki? Mam nadzieję, że nie kaleczę tego angielskiego...
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					Nowe ciuchy? :) Daj mi dane... Ja ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					Wydatki? Zgaduję, że to na kolejne ciekawe rzeczy, które pomogą Ci się dostać do własnego wnętrza. :p Daj mi dane... Ja z przyjemnością ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					Kolejny wydatek? Wydatki są brzydkie! Chociaż... Zależy jeszcze na kogo wydajesz te pieniądze ;p Daj mi dane... Ja zrobię to za Ciebie.
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					Wydatki? Okej. Co mam wpisać, Basiek?
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					Okej, Mr. Podwójci! Daj mi dane... Ja ogarnę resztę.
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Pokaż te wydatki! Zobaczymy, gdzie te pieniądze uciekają, moja droga Pani Mamo...
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					Pan wziął... prawda? Pewnie na same rachunki sporo idzie...
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					Wydatki? Zgaduję, że na kolejny świetny projekt! Dajcie z siebie wszystko!					
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					No! Mam nadzieję, że to tylko na kaszę i to JAGLANĄ..
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					Jakie dzisiaj wydatki masz, moja droga Joanno?
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					Jaką dzisiaj herbatę kupujemy?
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					Kolejny dzień i znowu to samo... XD
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					Hej Ty! Jaki dzisiaj wydatek chcesz wpisać?
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					Magiczne zwoje, runy, miecze, łuki, potiony...? Co dzisiaj kupiłeś, Sebikson?
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					Ile septimów dzisiaj poszło, Aleksandrze?
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					Ile dzisiaj, Huberto?
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					Jak tam, Madzixon? Na co dzisiaj poszły pieniądze?
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					Jakieś wydatki, Mieszko?
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					Jakieś wydatki, Poteflonie? Przepraszam.. Nie mogłam sie powstrzymać. xD
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					Na co dzisiaj poszło, Julianie?
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					Jakie wydatki dzisiaj wpisujemy, Janko?
+				{% else %}
+					Okej! To daj mi dane... Ja ogarnę resztę.
+				{% endif %}
+			</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+
+		<div class = "col-12">
+	
+			<div class = "transferFormContainer">
+				
+				<form action = "/add-expense/add-new-expense" method = "post">
+					
+					<div class = "col-12 category">
+					
+						<fieldset class = "category">
+						
+							<legend> Kategorie </legend>
+							
+								{% if user.expenseCategoriesArr %}
+									{% for row in user.expenseCategoriesArr %}
+										<div class = "columns">
+											<div>
+												<label>
+													<input 
+														type = "radio"
+														value = "{{ row.id }}"
+														name = "category"
+														class = "categoryRadioBtn"
+														checked
+													>
+													{{ row.name }}
+													{% if row.user_limit %}
+														<div>
+															<span class = "limitText">
+																Limit: {{ row.user_limit }} zł
+															</span>
+														</div>
+													{% endif %}
+												</label>
+											</div>
+										</div>
+									{% endfor %}
+								{% endif %}
+																				
+							<div style = "clear:both;"></div>
+							
+						</fieldset>
+						
+						<fieldset class = "category">
+							<legend class = "paymentMethod"> Metody Płatności </legend>
+							
+								{% for row in user.paymentMethodsArr %}
+									<div class = "columns">
+										<div>
+											<label>
+												<input
+													type = "radio"
+													value = "{{ row.id }}"
+													name = "paymentMethod"
+													class = "paymentMethodRadioBtn"
+													checked
+												>
+												{{ row.name }}
+												{% if row.user_limit %}
+													<div>
+														<span class = "limitText">
+															Limit: {{ row.user_limit }} zł
+														</span>
+													</div>
+												{% endif %}
+											</label>
+										</div>
+									</div>
+								{% endfor %}
+																				
+							<div style = "clear:both;"></div>
+						</fieldset>
+						
+					</div>
+					
+					<div class = "col-12">
+						<div id = "limitCategoryContainer">
+						</div>
+						<div id = "limitPaymentMethodContainer">
+						</div>
+					</div>
+					
+					<div class = "col-12 col-md-5 col-lg-4" style = "float:left;">
+						
+						<div class = "col-12 amountAndDate">
+							<input
+								class = "form-control transferForm"
+								type = "number"
+								step = 0.01
+								placeholder = "kwota"
+								name = "amount"
+								id = "amount"
+								required
+							>					
+							<input
+								class = "form-control transferForm"
+								id = "date"
+								type = "text"
+								name = "date"
+								placeholder = "data"
+								required
+							>
+						</div>
+						<div style = "clear:both;"></div>
+						
+					</div>
+				
+					<div class = "col-12 col-md-7 col-lg-8" style = "float:left;">
+																	
+						<div class = "col-12 textArea">
+							<textArea class = "form-control textArea" placeholder = "komentarz (opcjonalne)" name = "comment"></textArea>
+						</div>
+						<div style = "clear:both;"></div>
+					
+					</div>
+					<div style = "clear:both;"></div>												
+				
+					<div class = "col-12 buttonsContainer">
+					
+						<button class = "addExpense">							
+							<i class = "icon-money"></i><br />
+							<span class = "text">Dodaj wydatek</span>
+						</button>
+						
+						<a href = "/main-menu">
+							<div class = "back">
+								<i class = "icon-undo"></i><br />
+								<span class = "text">Wróć</span>
+							</div>
+						</a>
+						<div style = "clear:both;"></div>
+
+					</div>
+					
+					
+				</form>
+			
+			</div>
+			
+		</div>
+		
+	</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block body %}
+
+	<header>
+	
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">Gotów?</h1>
+			<div class = "oneLineCenterText">Sukces! Twoje konto jest teraz aktywne. Możesz teraz się zalogować.</div>
+			<div class = "oneLineCenterText">Zróbmy pierwsze wejście!</div>
+		</div>
+		
+	</header>
+
+    <div class = "row">
+
+		<div class = "col-12">
+		
+			<div class = "welcomeNewUserButtonsContainer">
+			
+				<a href = "/login/new">
+					<div class = "logInButton">
+						<div class = "icons">
+							<i class = "icon-login"></i>
+						</div>
+						<div class = "iconText">
+							Dobra!
+						</div>
+					</div>
+				</a>
+				
+				<div style = "clear:both;"></div>
+			
+			</div>
+		
+		</div>
+		
+	</div>
+
+{% endblock %}

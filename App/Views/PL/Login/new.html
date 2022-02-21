@@ -1,0 +1,51 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">Zapraszam!</h1>
+			<div class = "oneLineCenterText">Użyj swojego klucza, aby wejść! :)</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+	
+		<div class = "col-12">
+	
+			<div class = "registrationLogInForm">
+				
+				<form action = "/login/create" method = "post">
+					
+					<input class = "form-control registrationLogInForm emailLogInForm" type = "email" placeholder = "email" name = "email">
+					<input class = "form-control registrationLogInForm" type = "password" placeholder = "hasło" name = "password">
+					<div style = "clear:both;"></div>
+					
+					<div class = "checkboxAndForgotPassword">
+						<div style = "float: left;" class = "checkbox">
+							<label>
+								<input type="checkbox" name="remember_me" {% if remember_me %} checked="checked"{% endif %} /> Pamiętaj mnie
+							</label>
+						</div>
+						<div style = "float: right;" class = "forgotPassword">
+							<a href = "/password/forgot">Nie pamiętasz hasła?</a>
+						</div>
+						<div style = "clear:both;"></div>
+					</div>
+					
+					<input class = "registrationLogInForm" type = "submit" value = "Tak! To ja!">
+					<div style = "clear:both;"></div>
+					
+				</form>
+								
+			</div>
+		
+		</div>
+	
+	</div>
+
+{% endblock %}

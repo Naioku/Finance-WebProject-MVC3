@@ -1,0 +1,41 @@
+{% extends "baseNotUser.html" %}
+
+{% block title %}Forgot password{% endblock %}
+
+{% block body %}
+	
+	<header>
+								
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">Hasło zresetowane!</h1>
+			<div class = "oneLineCenterText">Możesz teraz spokojnie się zalogować tutaj, wiec na co czekasz?</div>
+			<div class = "oneLineCenterText">Wchodź!</div>
+			
+		</div>
+
+	</header>
+	
+	<div class = "row">
+	
+		<div class = "col-12">
+	
+			<div class = "buttonsContainer buttonsContainerYouCanNowLogin">
+				
+				<a href = "/login">
+					<div class = "logInButton logInButtonYouCanNowLogin">
+						<div class = "icons">
+							<i class = "icon-login"></i>
+						</div>
+						<div class = "iconText">
+							Ok!
+						</div>
+					</div>
+				</a>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+{% endblock %}

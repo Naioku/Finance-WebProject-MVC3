@@ -1,0 +1,1563 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block footer %}
+		
+	{% if user.isOnlyOneDataErrorArr is empty %}
+		{% if user.errors is not empty %}
+			<script>
+				$(document).ready(function() {
+				
+					$("#modal-userData").modal("show");
+				
+				});
+			</script>
+		{% endif %}
+	{% endif %}
+				
+	{% for oneData in user.isOnlyOneDataErrorArr %}
+		<script>
+			$(document).ready(function() {
+			
+				$("#modal-userData-{{ oneData }}").modal("show");
+			
+			});
+		</script>
+	{% endfor %}
+	
+	{% if user.isOnlyNameError == true %}
+		<script>
+			$(document).ready(function() {
+			
+				$("#modal-userData-name").modal("show");
+			
+			});
+		</script>
+	{% endif %}
+	
+	{% if user.incomeCategoryNameIsSetFlag %}
+		<script>
+				$(document).ready(function() {
+				
+					$("#modal-income-warning-sameName").modal("show");
+				
+				});
+		</script>
+	{% endif %}
+	
+	{% if user.incomeCategoriesErrorsArr is not empty %}
+		{% for categoryId in user.incomeCategoriesErrorsArr|keys %}
+			<script>
+				$(document).ready(function() {
+				
+					$("#modal-incomes-{{ categoryId }}").modal("show");
+				
+				});
+			</script>
+		{% endfor %}
+	{% endif %}
+	
+	{% if user.incomeCategoryNameIsSetFlag %}
+		<script>
+				$(document).ready(function() {
+				
+					$("#modal-income-warning-sameName").modal("show");
+				
+				});
+		</script>
+	{% endif %}
+	
+	{% if user.expenseCategoriesErrorsArr is not empty %}
+		{% for categoryId in user.expenseCategoriesErrorsArr|keys %}
+			<script>
+				$(document).ready(function() {
+				
+					$("#modal-expense-{{ categoryId }}").modal("show");
+				
+				});
+			</script>
+		{% endfor %}
+	{% endif %}
+	
+	{% if user.expenseCategoryNameIsSetFlag %}
+		<script>
+				$(document).ready(function() {
+				
+					$("#modal-expense-warning-sameName").modal("show");
+				
+				});
+		</script>
+	{% endif %}
+	
+	{% if user.paymentMethodsErrorsArr is not empty %}
+		{% for methodId in user.paymentMethodsErrorsArr|keys %}
+			<script>
+				$(document).ready(function() {
+				
+					$("#modal-paymentMethod-{{ methodId }}").modal("show");
+				
+				});
+			</script>
+		{% endfor %}
+	{% endif %}
+	
+	{% if user.paymentMethodNameIsSetFlag %}
+		<script>
+				$(document).ready(function() {
+				
+					$("#modal-paymentMethod-warning-sameName").modal("show");
+				
+				});
+		</script>
+	{% endif %}
+	
+	<script>
+		$(document).ready(function() {
+		
+			/**
+			 * Slide Toggle ==============================|
+			 */
+			$(".settingsHeaders").click(function() {
+				$header = $(this);
+				$content = $header.next();
+				$content.slideToggle(500);
+			});
+		});
+	</script>
+	
+{% endblock %}
+
+{% block modal %}
+	<!-- Modal - user's data -->
+	<div class="modal fade" id="modal-userData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-data">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<input
+								class = "form-control myInput myModal"
+								name = "name"
+								type = "text"
+								value = "{{ user.temp_name }}"
+								placeholder = "name"
+								autofocus
+							>
+
+							<input
+								class = "form-control myInput myModal"
+								name = "lastName"
+								type = "text"
+								value = "{{ user.temp_lastName }}"
+								placeholder = "last name"
+							>
+
+							<input
+								class = "form-control myInput myModal"
+								name = "login"
+								type = "text"
+								value = "{{ user.temp_login }}"
+								placeholder = "login"
+							>
+
+							<input
+								class = "form-control myInput myModal"
+								name = "password"
+								type = "password"
+								placeholder = "password"
+							>
+
+							<input
+								class = "form-control myInput myModal"
+								name = "password_confirmation"
+								type = "password"
+								placeholder = "confirm password"
+							>
+
+							<input
+								class = "form-control myInput myModal emailRegistrationForm"
+								name = "email"
+								type = "email"
+								value = "{{ user.temp_email }}"
+								placeholder = "email"
+							>
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-userData-name" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-name">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<input
+								class = "form-control myInput myModal"
+								name = "name"
+								type = "text"
+								value = "{{ user.temp_name }}"
+								placeholder = "name"
+								autofocus
+							>
+							
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-userData-lastName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-lastName">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+
+							<input
+								class = "form-control myInput myModal"
+								name = "lastName"
+								type = "text"
+								value = "{{ user.temp_lastName }}"
+								placeholder = "last name"
+								autofocus
+							>
+							
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-userData-login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-login">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+
+							<input
+								class = "form-control myInput myModal"
+								name = "login"
+								type = "text"
+								value = "{{ user.temp_login }}"
+								placeholder = "login"
+								autofocus
+							>
+							
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-userData-password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-password">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+
+							<input
+								class = "form-control myInput myModal"
+								name = "password"
+								type = "password"
+								placeholder = "password"
+								autofocus
+							>
+
+							<input
+								class = "form-control myInput myModal"
+								name = "password_confirmation"
+								type = "password"
+								placeholder = "confirm password"
+							>
+							
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-userData-email" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+				</div>
+				<form method = "post" action = "/settings/update-user-email">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+
+							<input
+								class = "form-control myInput myModal emailRegistrationForm"
+								name = "email"
+								type = "email"
+								value = "{{ user.temp_email }}"
+								placeholder = "email"
+								autofocus
+							>
+						</div>
+						
+						{% if user.errors is not empty %}
+							<div class = "allErrorMsgsDiv">
+								<div class = "errorMsgs">Check it:</div>
+								<ul>
+									{% for error in user.errors %}
+										<li><div class = "errorMsgs">{{ error }}</div></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	{% if user.last_name %}
+		<div class="modal fade" id="modal-userData-delete-lastName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Delete</h5>
+					</div>
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+								You are going to delete this record. Are You sure?
+							</div>
+						
+						</div>
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								No!
+							</button>
+							<a href = "/settings/delete-user-last-name">
+								<button
+									style = "float:right"
+									type="button"
+									class="button myModal saveChanges"
+								>
+									Yup!
+								</button>
+							</a>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	
+	{% if user.login %}
+		<div class="modal fade" id="modal-userData-delete-login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Delete</h5>
+					</div>
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+								You are going to delete this record. Are You sure?
+							</div>
+						
+						</div>
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								No!
+							</button>
+							<a href = "/settings/delete-user-login">
+								<button
+									style = "float:right"
+									type="button"
+									class="button myModal saveChanges"
+								>
+									Yup!
+								</button>
+							</a>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	
+	<!-- Modal - income's categories -->
+	{% for row in user.incomeCategoriesArr %}
+		<div class="modal fade" id="modal-incomes-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+					</div>
+					<form method = "post" action = "/settings/update-income-category">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<input
+									class = "form-control myInput myModal"
+									name = "name"
+									type = "text"
+									placeholder = "name"
+									autofocus
+								>
+								<input
+									type = "hidden"
+									name = "categoryId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+							{% if user.incomeCategoriesErrorsArr is not empty %}
+								{% for categoryId, errors in user.incomeCategoriesErrorsArr %}
+									{% if categoryId == row.id %}
+										<div class = "allErrorMsgsDiv">
+											<div class = "errorMsgs">Check it:</div>
+											<ul>
+												{% for error in errors %}
+													<li><div class = "errorMsgs">{{ error }}</div></li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Close
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Save changes
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-incomes-delete-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Delete</h5>
+					</div>
+					<form method = "post" action = "/settings/delete-income-category">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<div class = "m-0" id = "areYouSureMsg" style = "text-align:justify">
+									You are going to delete this record. Are You sure? All incomes with that category will be deleted. If You don't want to do that <span class = "modalBody-boldText">change category of every income</span> You want to save in view balace site first.
+								</div>
+								
+								<input
+									type = "hidden"
+									name = "categoryId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									No!
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Yup!
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	
+	<div class="modal fade" id="modal-incomes-0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Add new income's category</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-income-category">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<input
+								class = "form-control myInput myModal"
+								name = "name"
+								type = "text"
+								placeholder = "name"
+								autofocus
+							>
+							<input
+								type = "hidden"
+								name = "categoryId"
+								value = "0"
+							>
+							
+						</div>
+						
+						{% if user.incomeCategoriesErrorsArr is not empty %}
+							{% for categoryId, errors in user.incomeCategoriesErrorsArr %}
+								{% if categoryId == row.id %}
+									<div class = "allErrorMsgsDiv">
+										<div class = "errorMsgs">Check it:</div>
+										<ul>
+											{% for error in errors %}
+												<li><div class = "errorMsgs">{{ error }}</div></li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-income-warning-sameName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Warning - same name</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-income-category">
+					<div class="modal-body" id = "modal-body">
+						
+						<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+							You are going to add record at the same or very similar name. Want to proceed?
+						</div>
+						
+						<input
+							type = "hidden"
+							name = "name"
+							value = "{{ user.incomeCategoryName }}"
+						>
+						
+						<input
+							type = "hidden"
+							name = "wantToProceed"
+							value = "true"
+						>
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								No!
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Yup!
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal - expense's categories ----------------------------------------------------------------->
+	{% for row in user.expenseCategoriesArr %}
+		<div class="modal fade" id="modal-expense-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+					</div>
+					<form method = "post" action = "/settings/update-expense-category">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<input
+									class = "form-control myInput myModal"
+									name = "name"
+									type = "text"
+									placeholder = "name"
+									autofocus
+								>
+								<input
+									class = "form-control myInput myModal"
+									name = "limit"
+									type = "number"
+									placeholder = "limit"
+									step = "0.01"
+								>
+								<input
+									type = "hidden"
+									name = "categoryId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+							{% if user.expenseCategoriesErrorsArr is not empty %}
+								{% for categoryId, errors in user.expenseCategoriesErrorsArr %}
+									{% if categoryId == row.id %}
+										<div class = "allErrorMsgsDiv">
+											<div class = "errorMsgs">Check it:</div>
+											<ul>
+												{% for error in errors %}
+													<li><div class = "errorMsgs">{{ error }}</div></li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Close
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Save changes
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-expense-delete-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Delete</h5>
+					</div>
+					<form method = "post" action = "/settings/delete-expense-category">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<div class = "m-0" id = "areYouSureMsg" style = "text-align:justify">
+									You are going to delete this record. Are You sure? All expenses with that category will be deleted. If You don't want to do that <span class = "modalBody-boldText">change category of every expense</span> You want to save in view balace site first.
+								</div>
+								
+								<input
+									type = "hidden"
+									name = "categoryId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									No!
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Yup!
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	
+	<div class="modal fade" id="modal-expense-0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Add new expense's category</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-expense-category">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<input
+								class = "form-control myInput myModal"
+								name = "name"
+								type = "text"
+								placeholder = "name"
+								autofocus
+							>
+							<input
+								class = "form-control myInput myModal"
+								name = "limit"
+								type = "number"
+								placeholder = "limit"
+								step = "0.01"
+							>
+							<input
+								type = "hidden"
+								name = "categoryId"
+								value = "0"
+							>
+							
+						</div>
+						
+						{% if user.expenseCategoriesErrorsArr is not empty %}
+							{% for categoryId, errors in user.expenseCategoriesErrorsArr %}
+								{% if categoryId == row.id %}
+									<div class = "allErrorMsgsDiv">
+										<div class = "errorMsgs">Check it:</div>
+										<ul>
+											{% for error in errors %}
+												<li><div class = "errorMsgs">{{ error }}</div></li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-expense-warning-sameName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Warning - same name</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-expense-category">
+					<div class="modal-body" id = "modal-body">
+						
+						<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+							You are going to add record at the same or very similar name. Want to proceed?
+						</div>
+						
+						<input
+							type = "hidden"
+							name = "name"
+							value = "{{ user.expenseCategoryName }}"
+						>
+						
+						<input
+							type = "hidden"
+							name = "limit"
+							value = "{{ user.expenseCategoryLimit }}"
+						>
+						
+						<input
+							type = "hidden"
+							name = "wantToProceed"
+							value = "true"
+						>
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								No!
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Yup!
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!------------------------------------------------------------------->
+	
+	<!-- Modal - payment methods ----------------------------------------------------------------->
+	{% for row in user.paymentMethodsArr %}
+		<div class="modal fade" id="modal-paymentMethod-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Edit</h5>
+					</div>
+					<form method = "post" action = "/settings/update-payment-method">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<input
+									class = "form-control myInput myModal"
+									name = "name"
+									type = "text"
+									placeholder = "name"
+									autofocus
+								>
+								<input
+									class = "form-control myInput myModal"
+									name = "limit"
+									type = "number"
+									placeholder = "limit"
+									step = "0.01"
+								>
+								<input
+									type = "hidden"
+									name = "methodId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+							{% if user.paymentMethodsErrorsArr is not empty %}
+								{% for methodId, errors in user.paymentMethodsErrorsArr %}
+									{% if methodId == row.id %}
+										<div class = "allErrorMsgsDiv">
+											<div class = "errorMsgs">Check it:</div>
+											<ul>
+												{% for error in errors %}
+													<li><div class = "errorMsgs">{{ error }}</div></li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									Close
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Save changes
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal-paymentMethod-delete-{{ row.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content myModalContent">
+					<div class="modal-header">
+						<h5 class="modal-title myModalTitle" id="exampleModalLabel">Delete</h5>
+					</div>
+					<form method = "post" action = "/settings/delete-payment-method">
+						<div class="modal-body" id = "modal-body">
+							<div class = "modalInputs" id = "modalInputs">
+							
+								<div class = "m-0" id = "areYouSureMsg" style = "text-align:justify">
+									You are going to delete this record. Are You sure? All expenses with that payment method will be deleted. If You don't want to do that <span class = "modalBody-boldText">change payment method of every expense</span> You want to save in view balace site first.
+								</div>
+								
+								<input
+									type = "hidden"
+									name = "methodId"
+									value = "{{ row.id }}"
+								>
+							
+							</div>
+							
+						</div>
+						<div class="modal-footer myModalFooter">
+							<div class = "myModalButtons">
+								<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+									No!
+								</button>
+								<button style = "float:right" type="submit" class="button myModal saveChanges">
+									Yup!
+								</button>
+								<div style = "clear:both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	
+	<div class="modal fade" id="modal-paymentMethod-0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Add new payment method</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-payment-method">
+					<div class="modal-body" id = "modal-body">
+						<div class = "modalInputs" id = "modalInputs">
+						
+							<input
+								class = "form-control myInput myModal"
+								name = "name"
+								type = "text"
+								placeholder = "name"
+								autofocus
+							>
+							<input
+								class = "form-control myInput myModal"
+								name = "limit"
+								type = "number"
+								placeholder = "limit"
+								step = "0.01"
+							>
+							<input
+								type = "hidden"
+								name = "methodId"
+								value = "0"
+							>
+							
+						</div>
+						
+						{% if user.paymentMethodsErrorsArr is not empty %}
+							{% for methodId, errors in user.paymentMethodsErrorsArr %}
+								{% if methodId == row.id %}
+									<div class = "allErrorMsgsDiv">
+										<div class = "errorMsgs">Check it:</div>
+										<ul>
+											{% for error in errors %}
+												<li><div class = "errorMsgs">{{ error }}</div></li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								Close
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Save changes
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-paymentMethod-warning-sameName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content myModalContent">
+				<div class="modal-header">
+					<h5 class="modal-title myModalTitle" id="exampleModalLabel">Warning - same name</h5>
+				</div>
+				<form method = "post" action = "/settings/add-new-payment-method">
+					<div class="modal-body" id = "modal-body">
+						
+						<div class = "oneLineCenterText m-0" id = "areYouSureMsg">
+							You are going to add record at the same or very similar name. Want to proceed?
+						</div>
+						
+						<input
+							type = "hidden"
+							name = "name"
+							value = "{{ user.paymentMethodName }}"
+						>
+						
+						<input
+							type = "hidden"
+							name = "limit"
+							value = "{{ user.paymentMethodLimit }}"
+						>
+						
+						<input
+							type = "hidden"
+							name = "wantToProceed"
+							value = "true"
+						>
+						
+					</div>
+					<div class="modal-footer myModalFooter">
+						<div class = "myModalButtons">
+							<button style = "float:right" type="button" class="button myModal close" data-bs-dismiss="modal">
+								No!
+							</button>
+							<button style = "float:right" type="submit" class="button myModal saveChanges">
+								Yup!
+							</button>
+							<div style = "clear:both"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!------------------------------------------------------------------->
+	
+{% endblock %}
+
+{% block body %}
+	
+	<header>
+
+		<div class = "textContainer textContainerSettingsSite">
+			<h1 class = "articleHeaders">
+				Settings
+			</h1>
+			<div class = "oneLineCenterText">
+				{% if user.whichKindOfUser == 'Klus' %}
+					Dumpling, dumpling<br />
+					Lazy, lazy dumplings<br />
+					They both are<br />
+					Little dumplings' coming far
+				{% elseif user.whichKindOfUser == 'Pulti' %}
+					You want to update some of Your data, Rosa?
+				{% elseif user.whichKindOfUser == 'Kin' %}
+					You want to update some of Your data, Cordi?
+				{% elseif user.whichKindOfUser == 'Clud' %}
+					You want to update some of Your pretty data?
+				{% elseif user.whichKindOfUser == 'Tola' %}
+					You want to update some of Your data, Tola?
+				{% elseif user.whichKindOfUser == 'Werka' %}
+					You want to update some of Your data, Verka?
+				{% elseif user.whichKindOfUser == 'Bas' %}
+					You want to update some of Your data, Nadzieja?
+				{% elseif user.whichKindOfUser == 'Jakubson' %}
+					You want to update some of Your data, Kubson?
+				{% elseif user.whichKindOfUser == 'Anna' %}
+					Madam Mother want to change her data?
+				{% elseif user.whichKindOfUser == 'Bogdan' %}
+					Sir Handyman want to change his data?
+				{% elseif user.whichKindOfUser == 'PrzyszlyProgramista' %}
+					You want to update some of Your data, FutureProgrammer Team?
+				{% elseif user.whichKindOfUser == 'Cornisto' %}
+					You want to update some of Your data, Cornisto?
+				{% elseif user.whichKindOfUser == 'Joanna' %}
+					You want to update some of Your data, Joanno?
+				{% elseif user.whichKindOfUser == 'Zuzia' %}
+					You want to update some of Your data, Zuzanno?
+				{% elseif user.whichKindOfUser == 'Lukster' %}
+					You want to update some of Your data, Luki?
+				{% elseif user.whichKindOfUser == 'Mateusz' %}
+					You want to update some of Your data, Mati?
+				{% elseif user.whichKindOfUser == 'Sebo' %}
+					You want to update some of Your data, Sebo?
+				{% elseif user.whichKindOfUser == 'Alek' %}
+					You want to update some of Your data, Alek?
+				{% elseif user.whichKindOfUser == 'Hubert' %}
+					You want to update some of Your data, Hubix?
+				{% elseif user.whichKindOfUser == 'Madzixon' %}
+					You want to update some of Your data, Madzixon?
+				{% elseif user.whichKindOfUser == 'Kasiek' %}
+					You want to update some of Your data, Kasia?
+				{% elseif user.whichKindOfUser == 'Filip' %}
+					You want to update some of Your data, Filipie?
+				{% elseif user.whichKindOfUser == 'Julko' %}
+					You want to update some of Your data, mistrzu?
+				{% elseif user.whichKindOfUser == 'Janko' %}
+					You want to update some of Your data, Asia?
+				{% else %}
+					You want to update some of Your data?
+				{% endif %}
+			
+				
+			</div>
+		</div>
+	
+	</header>
+	
+	<div class = "row">
+
+		<div class = "col-12">
+	
+			<div class = "settingsContainer">
+				
+				<div class = "oneSettingBlock">										
+					<div class = "button settingsHeaders settingsHeadersIncomesCategory">
+						Income's categories
+					</div>
+					
+					<div class = "settingsFields">
+						{% if user.incomeCategoriesArr is not empty %}
+							{% for row in user.incomeCategoriesArr %}
+								<div class = "button settingIncomesCategory noPaddingDiv">
+									<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableAndDeletableRecords">{{ row.name }}</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonDelete"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-incomes-delete-{{ row.id }}"
+									>
+										<i class = "icon-trash-empty"></i>
+									</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonEdit"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-incomes-{{ row.id }}"
+									>
+										<i class = "icon-edit"></i>
+									</div>
+									<div style = "clear: both;"></div>
+								</div>
+							{% endfor %}
+						{% endif %}
+						
+						<div class = "button settingUserData settingChangeAllAndAddNew noPaddingDiv">
+							<div
+								class = "settingsFieldsText"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-incomes-0"
+							>
+								Add new one!
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "oneSettingBlock">
+					<div class = "button settingsHeaders settingsHeadersExpensesCategory">
+						Expense's categories
+					</div>
+					
+					<div class = "settingsFields">
+						{% if user.expenseCategoriesArr is not empty %}
+							{% for row in user.expenseCategoriesArr %}
+								<div class = "button settingExpensesCategory noPaddingDiv">
+									<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableAndDeletableRecords">
+										{{ row.name }}
+										{% if row.user_limit %}
+											<span class = "limitText">
+												Limit: {{ row.user_limit }} zł
+											</span>
+										{% endif %}
+									</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonDelete"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-expense-delete-{{ row.id }}"
+									>
+										<i class = "icon-trash-empty"></i>
+									</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonEdit"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-expense-{{ row.id }}"
+									>
+										<i class = "icon-edit"></i>
+									</div>
+									<div style = "clear: both;"></div>
+								</div>
+							{% endfor %}
+						{% endif %}
+						<div class = "button settingUserData settingChangeAllAndAddNew noPaddingDiv">
+							<div
+								class = "settingsFieldsText"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-expense-0"
+							>
+								Add new one!
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "oneSettingBlock">
+					<div class = "button settingsHeaders settingsHeadersPaymentMethods">
+						Payment methods
+					</div>
+					
+					<div class = "settingsFields">
+						{% if user.paymentMethodsArr is not empty %}
+							{% for row in user.paymentMethodsArr %}
+								<div class = "button settingExpensesCategory noPaddingDiv">
+									<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableAndDeletableRecords">
+										{{ row.name }}
+										{% if row.user_limit %}
+											<span class = "limitText">
+												Limit: {{ row.user_limit }} zł
+											</span>
+										{% endif %}
+									</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonDelete"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-paymentMethod-delete-{{ row.id }}"
+									>
+										<i class = "icon-trash-empty"></i>
+									</div>
+									<div
+										style = "float: right;"
+										class = "button settingsFieldsButton settingsFieldsButtonEdit"
+										type="button"
+										data-bs-toggle="modal"
+										data-bs-target="#modal-paymentMethod-{{ row.id }}"
+									>
+										<i class = "icon-edit"></i>
+									</div>
+									<div style = "clear: both;"></div>
+								</div>
+							{% endfor %}
+						{% endif %}
+						<div class = "button settingUserData settingChangeAllAndAddNew noPaddingDiv">
+							<div
+								class = "settingsFieldsText"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-paymentMethod-0"
+							>
+								Add new one!
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "oneSettingBlock">
+					<div class = "button settingsHeaders settingsHeadersUserData">
+						User's data
+					</div>
+					
+					<div class = "settingsFields">
+						<div class = "button settingUserData noPaddingDiv notDeletable">
+							<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableRecords">
+								Name: 
+								<span class = "userSettingsData">
+									{% if user.name %}
+										{{ user.name }}
+									{% else %}
+										<span class = "narrator">Hasn't set any.</span>
+									{% endif %}
+								</span>
+							</div>
+							<div
+								style = "float: right;"
+								class = "button settingsFieldsButton settingsFieldsButtonEdit"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData-name"
+							>
+								<i class = "icon-edit"></i>
+							</div>
+							<div style = "clear: both;"></div>
+						</div>
+						<div class = "button settingUserData noPaddingDiv">
+							<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableAndDeletableRecords">
+								Last name: 
+								<span class = "userSettingsData">
+									{% if user.last_name %}
+										{{ user.last_name }}
+									{% else %}
+										<span class = "narrator">Hasn't set any.</span>
+									{% endif %}
+								</span>
+							</div>
+							{% if user.last_name %}
+								<div
+									style = "float: right;"
+									class = "button settingsFieldsButton settingsFieldsButtonDelete"
+									type="button"
+									data-bs-toggle="modal"
+									data-bs-target="#modal-userData-delete-lastName"
+								>
+									<i class = "icon-trash-empty"></i>
+								</div>
+							{% endif %}
+							<div
+								style = "float: right;"
+								class = "button settingsFieldsButton settingsFieldsButtonEdit"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData-lastName"
+								name = "userSurname"
+							>
+								<i class = "icon-edit"></i>
+							</div>
+							<div style = "clear: both;"></div>
+						</div>
+						<div class = "button settingUserData noPaddingDiv">
+							<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableAndDeletableRecords">
+								Login: 
+								<span class = "userSettingsData">
+									{% if user.login %}
+										{{ user.login }}
+									{% else %}
+										<span class = "narrator">Hasn't set any.</span>
+									{% endif %}
+								</span>
+							</div>
+							{% if user.login %}
+								<div
+									style = "float: right;"
+									class = "button settingsFieldsButton settingsFieldsButtonDelete"
+									type="button"
+									data-bs-toggle="modal"
+									data-bs-target="#modal-userData-delete-login"
+								>
+									<i class = "icon-trash-empty"></i>
+								</div>
+							{% endif %}
+							<div
+								style = "float: right;"
+								class = "button settingsFieldsButton settingsFieldsButtonEdit"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData-login"
+								name = "userLogin"
+							>
+								<i class = "icon-edit"></i>
+							</div>
+							<div style = "clear: both;"></div>
+						</div>
+						<div class = "button settingUserData noPaddingDiv notDeletable">
+							<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableRecords">
+								Password
+							</div>
+							<div
+								style = "float: right;"
+								class = "button settingsFieldsButton settingsFieldsButtonEdit"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData-password"
+							>
+								<i class = "icon-edit"></i>
+							</div>
+							<div style = "clear: both;"></div>
+						</div>
+						<div class = "button settingUserData noPaddingDiv notDeletable">
+							<div style = "float: left;" class = "settingsFieldsText settingsFieldsTextEditableRecords">
+								E-mail: 
+								<span class = "userSettingsData">
+									{% if user.email %}
+										{{ user.email }}
+									{% else %}
+										<span class = "narrator">Hasn't set any.</span>
+									{% endif %}
+								</span>
+							</div>
+							<div
+								style = "float: right;"
+								class = "button settingsFieldsButton settingsFieldsButtonEdit"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData-email"
+							>
+								<i class = "icon-edit"></i>
+							</div>
+							<div style = "clear: both;"></div>
+						</div>
+						<div class = "button settingUserData settingChangeAllAndAddNew noPaddingDiv">
+							<div
+								class = "settingsFieldsText"
+								type="button"
+								data-bs-toggle="modal"
+								data-bs-target="#modal-userData"
+								id = "userSettingsChangeAll"
+							>
+								Change all!
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		
+		</div>
+	
+	</div>
+{% endblock %}

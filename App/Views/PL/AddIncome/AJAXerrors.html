@@ -1,0 +1,8 @@
+<div class = "allErrorMsgsDiv">
+	<div class = "errorMsgs" style = "text-align: center">Sprawdź to:</div>
+	<ul>
+		{% for error in user.AJAXerrors %}
+			<li><div class = "errorMsgs">{{ error }}</div></li>
+		{% endfor %}
+	</ul>
+</div>

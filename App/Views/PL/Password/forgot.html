@@ -1,0 +1,27 @@
+{% extends 'baseNotUser.html' %}
+
+{% block title %}Forgot password{% endblock %}
+
+{% block body %}
+
+    <header>
+	
+		<div class = "textContainer">
+			<h1 class = "articleHeaders">Okej, w takim razie...</h1>
+			<div class = "oneLineCenterText">Potrzebuję Twojego maila, żeby wysłać link</div>
+		</div>
+	
+	</header>
+	
+	<div class = "registrationLogInForm">
+		<form method="post" action = "/password/request-reset">
+
+			<input class = "form-control registrationLogInForm emailRegistrationForm" name = "email" type = "email" placeholder = "email" value = "{{ user.email }}" required>
+			<div style = "clear:both;"></div>
+
+			<input class = "registrationLogInForm" type = "submit" value = "Proszę bardzo!">
+			<div style = "clear:both;"></div>
+		</form>
+	</div>
+
+{% endblock %}
